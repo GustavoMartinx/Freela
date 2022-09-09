@@ -27,7 +27,7 @@ git push --set-upstream origin branch_name
 ```
 <br>
 
-3. Fazer o pull request no github da sua branch para a branch de qa
+3. Faça o pull request no github da sua branch para a branch de qa
 <br><br>
 
-4. Adicionar alguém como reviwer (opcional)
+4. Adicione alguém como reviwer (opcional)
