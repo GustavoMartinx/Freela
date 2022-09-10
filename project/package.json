@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@material/top-app-bar": "^14.0.0"
+  }
+}
