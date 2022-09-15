@@ -53,7 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   // image below the top bar
                   child: SizedBox(
-                    height: screenSize.height * 0.45,
+                    height: screenSize.height,
+                    // height: screenSize.height * 0.6,
                     width: screenSize.width,
                     child: Image.asset(
                       'images/wp1.jpg',
@@ -74,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                   ),
                 ),
-                MyCustomForm(),
+                // MyCustomForm(),
               ],
             ),
           ),
