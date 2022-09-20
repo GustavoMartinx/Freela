@@ -6,6 +6,7 @@ class Navbar extends StatefulWidget {
 }
 
 class _Navbar extends State<Navbar> {
+  final _formKey = GlobalKey<_Navbar>();
   final List _isHovering = [false, false, false, false];
 
   @override
@@ -42,7 +43,63 @@ class _Navbar extends State<Navbar> {
                               : _isHovering[2] = false;
                         });
                       },
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: Stack(
+                                  // overflow: Overflow.visible,
+                                  children: <Widget>[
+                                    Positioned(
+                                      right: -40.0,
+                                      top: -40.0,
+                                      child: InkResponse(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: CircleAvatar(
+                                          child: Icon(Icons.close),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                    Form(
+                                      key: _formKey,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              decoration: InputDecoration(labelText: 'E-mail:'),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              decoration: InputDecoration(labelText: 'Senha:'),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ElevatedButton(
+                                              child: Text("Entrar"),
+                                              onPressed: () {
+                                                // if (_formKey.currentState.validate()) {
+                                                //   _formKey.currentState.save();
+                                                // }
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                      },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -81,7 +138,75 @@ class _Navbar extends State<Navbar> {
                               : _isHovering[3] = false;
                         });
                       },
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: Stack(
+                                  // overflow: Overflow.visible,
+                                  children: <Widget>[
+                                    Positioned(
+                                      right: -40.0,
+                                      top: -40.0,
+                                      child: InkResponse(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: CircleAvatar(
+                                          child: Icon(Icons.close),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                    Form(
+                                      key: _formKey,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              decoration: InputDecoration(labelText: 'Nome completo:'),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              decoration: InputDecoration(labelText: 'E-mail:'),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              decoration: InputDecoration(labelText: 'Senha:'),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: TextFormField(
+                                              decoration: InputDecoration(labelText: 'Confirmar senha:'),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ElevatedButton(
+                                              child: Text("Registrar"),
+                                              onPressed: () {
+                                                // if (_formKey.currentState.validate()) {
+                                                //   _formKey.currentState.save();
+                                                // }
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                      },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
