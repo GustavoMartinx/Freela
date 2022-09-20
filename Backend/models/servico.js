@@ -21,8 +21,10 @@ const Servico = database.define('servico', {
     }
 })
 
-Usuario.hasMany(Usuario,{
+
+Usuario.hasMany(Servico,{
     foreignKey: 'cpf'
 })
+
 
 module.exports = Servico;
