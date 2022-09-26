@@ -13,6 +13,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _formKey = GlobalKey<_MyHomePageState>();
   final ScrollController _scrollController = ScrollController();
   double _scrollPosition = 0;
   double _opacity = 0;
@@ -35,13 +36,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: PreferredSize(
-          preferredSize: Size(screenSize.width, 1000),
-          child: Navbar(),
-        ),
+        backgroundColor: Color(0xFF0C0526),
+        // appBar: PreferredSize(
+        //   preferredSize: Size(screenSize.width, 1000),
+        //   child: Navbar(),
+        // ),
         body: WebScrollbar(
-          color: Colors.blueGrey,
-          backgroundColor: Colors.blueGrey.withOpacity(0.3),
+          color: Color(0xFF676C71),
+          backgroundColor: Color(0xFF676C71),
           width: 10,
           heightFraction: 0.3,
           controller: _scrollController,
@@ -50,36 +52,208 @@ class _MyHomePageState extends State<MyHomePage> {
             physics: const ClampingScrollPhysics(),
             child: Column(
               children: [
+                // Container(
+                //   // image below the top bar
+                //   child: SizedBox(
+                //     height: screenSize.height,
+                //     // height: screenSize.height * 0.6,
+                //     width: screenSize.width,
+                //     child: Image.asset(
+                //       'images/wp1.jpg',
+                //       fit: BoxFit.cover,
+                //     ),
+                //   ),
+                // ),
                 Container(
-                  // image below the top bar
                   child: SizedBox(
-                    height: screenSize.height,
+                    height: 110,
                     // height: screenSize.height * 0.6,
-                    width: screenSize.width,
-                    child: Image.asset(
-                      'images/wp1.jpg',
-                      fit: BoxFit.cover,
+                    width: 275,
+                    child: ButtonTheme(
+                      //minWidth: 70.0,
+                      //height: 60.0,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(50, 20),
+                        ),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Stack(
+                                    // overflow: Overflow.visible,
+                                    children: <Widget>[
+                                      Positioned(
+                                        right: -40.0,
+                                        top: -40.0,
+                                        child: InkResponse(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: CircleAvatar(
+                                            child: Icon(Icons.close),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        ),
+                                      ),
+                                      Form(
+                                        key: _formKey,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText:
+                                                        'Nome completo:'),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText: 'E-mail:'),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText: 'Senha:'),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText:
+                                                        'Confirmar senha:'),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: ElevatedButton(
+                                                child: Text("Registrar"),
+                                                onPressed: () {
+                                                  // if (_formKey.currentState.validate()) {
+                                                  //   _formKey.currentState.save();
+                                                  // }
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                        },
+                        child: const Text("Login"),
+                      ),
                     ),
                   ),
                 ),
-                Center(
-                  heightFactor: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: screenSize.height * 0.40,
-                      left: screenSize.width / 5,
-                      right: screenSize.width / 5,
-                    ),
-                    child: Card(// floating quick access bar
-                        // ...
+                Container(
+                  child: SizedBox(
+                    height: 110,
+                    // height: screenSize.height * 0.6,
+                    width: 275,
+                    child: ButtonTheme(
+                      //minWidth: 70.0,
+                      //height: 60.0,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(50, 20),
                         ),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Stack(
+                                    // overflow: Overflow.visible,
+                                    children: <Widget>[
+                                      Positioned(
+                                        right: -40.0,
+                                        top: -40.0,
+                                        child: InkResponse(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: CircleAvatar(
+                                            child: Icon(Icons.close),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        ),
+                                      ),
+                                      Form(
+                                        key: _formKey,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText:
+                                                        'Nome completo:'),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText: 'E-mail:'),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText: 'Senha:'),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText:
+                                                        'Confirmar senha:'),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: ElevatedButton(
+                                                child: Text("Registrar"),
+                                                onPressed: () {
+                                                  // if (_formKey.currentState.validate()) {
+                                                  //   _formKey.currentState.save();
+                                                  // }
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                        },
+                        child: const Text("Sign up"),
+                      ),
+                    ),
                   ),
                 ),
                 // MyCustomForm(),
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }
