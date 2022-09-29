@@ -1,85 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:project/widgets/navbar.dart';
-import 'package:project/widgets/form.dart';
-import 'package:project/widgets/web_scrollbar.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final ScrollController _scrollController = ScrollController();
-  double _scrollPosition = 0;
-  double _opacity = 0;
-
-  _scrollListener() {
-    setState(() {
-      _scrollPosition = _scrollController.position.pixels;
-    });
-  }
-
-  @override
-  void initState() {
-    _scrollController.addListener(_scrollListener);
-    super.initState();
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
+    Color color = Theme.of(context).secondaryHeaderColor;
+
+    Widget buttonSection = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildButtonColumn(color, Icons.call, 'Contratar'),
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+        _buildButtonColumn(color, Icons.near_me, 'Oferecer'),
+      ],
+    );
+
+    // Color.fromARGB(255, 255, 255, 255).withOpacity(0.5)
+
+    Widget logoSloganButtonSection = Container(
+        padding: const EdgeInsets.all(30),
+        margin: const EdgeInsets.symmetric(vertical: 205),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Image(image: AssetImage('images/logo.png')),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            const Text(
+              "Precisa de dinheiro? Faz um Freela!",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w200,
+                color: Colors.white,
+              ),
+            ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
+            buttonSection,
+          ],
+        ));
+
+    Widget bigImageSection = Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Image(image: AssetImage('images/ilustracao.png')),
+      ],
+    );
 
     return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: PreferredSize(
-          preferredSize: Size(screenSize.width, 1000),
-          child: Navbar(),
-        ),
-        body: WebScrollbar(
-          color: Colors.blueGrey,
-          backgroundColor: Colors.blueGrey.withOpacity(0.3),
-          width: 10,
-          heightFraction: 0.3,
-          controller: _scrollController,
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            physics: const ClampingScrollPhysics(),
-            child: Column(
-              children: [
-                Container(
-                  // image below the top bar
-                  child: SizedBox(
-                    height: screenSize.height,
-                    // height: screenSize.height * 0.6,
-                    width: screenSize.width,
-                    child: Image.asset(
-                      'images/wp1.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+      backgroundColor: const Color(0xFF0D3071),
+      body: Row(
+        children: [
+          logoSloganButtonSection,
+          Expanded(child: bigImageSection),
+        ],
+      ),
+    );
+  }
+
+  Column _buildButtonColumn(Color color, IconData icon, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 1),
+          child: SizedBox(
+            width: 400,
+            height: 155,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ))),
+              onPressed: () {},
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.w400,
+                  color: color,
                 ),
-                Center(
-                  heightFactor: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: screenSize.height * 0.40,
-                      left: screenSize.width / 5,
-                      right: screenSize.width / 5,
-                    ),
-                    child: Card(// floating quick access bar
-                        // ...
-                        ),
-                  ),
-                ),
-                // MyCustomForm(),
-              ],
+              ),
             ),
           ),
-        )
+        ),
+      ],
     );
   }
 }
