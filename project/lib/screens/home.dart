@@ -1,22 +1,197 @@
 import 'package:flutter/material.dart';
+import 'feed.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
   @override
+  State<MyHomePage> createState() => _MyHomePage();
+}
+
+class _MyHomePage extends State<MyHomePage> {
+  @override
   Widget build(BuildContext context) {
     Color color = Theme.of(context).secondaryHeaderColor;
+    String email;
+    String senha;
+
+    final GlobalKey<_MyHomePage> _formKey = GlobalKey<_MyHomePage>();
+
+    Widget buildNome() {
+      return TextFormField(
+        decoration: const InputDecoration(labelText: 'Nome'),
+        validator: (value) {
+          if (value == '') {
+            return 'Digite seu nome';
+          }
+        },
+        onSaved: (value) {
+          email = value.toString();
+        },
+      );
+    }
+
+    Widget buildEmail() {
+      return TextFormField(
+        decoration: const InputDecoration(labelText: 'Email'),
+        validator: (value) {
+          if (value == '') {
+            return 'Digite seu e-mail';
+          }
+        },
+        onSaved: (value) {
+          email = value.toString();
+        },
+      );
+    }
+
+    Widget buildSenha() {
+      return TextFormField(
+        decoration: const InputDecoration(labelText: 'Senha'),
+        validator: (value) {
+          if (value == '') {
+            return 'Digite sua senha';
+          }
+        },
+        onSaved: (value) {
+          senha = value.toString();
+        },
+      );
+    }
+
+    Widget buildSenhaVerif() {
+      return TextFormField(
+        decoration: const InputDecoration(labelText: 'Confirmar senha'),
+        validator: (value) {
+          if (value == '') {
+            return 'Digite sua senha novamente';
+          }
+        },
+        onSaved: (value) {
+          email = value.toString();
+        },
+      );
+    }
+
+    Future<void> dialogBuilderLogin(BuildContext context) {
+      return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text('Login'),
+              content: Form(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    buildEmail(),
+                    buildSenha(),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      child: const Text(
+                        'Logar',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const FeedPage()),
+                          )
+                      },
+                    )
+                  ],
+                ),
+              ));
+        },
+      );
+    }
+
+    Future<void> dialogBuilderRegister(BuildContext context) {
+      return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text('Login'),
+              content: Form(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    buildNome(),
+                    buildEmail(),
+                    buildSenha(),
+                    buildSenhaVerif(),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                      onPressed: () => {},
+                    )
+                  ],
+                ),
+              ));
+        },
+      );
+    }
 
     Widget buttonSection = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildButtonColumn(color, Icons.call, 'Contratar'),
+        Container(
+          margin: const EdgeInsets.only(top: 1),
+          child: SizedBox(
+            width: 400,
+            height: 155,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ))),
+              onPressed: () {
+                dialogBuilderLogin(context);
+              },
+              child: Text(
+                'Contratar',
+                style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.w400,
+                  color: color,
+                ),
+              ),
+            ),
+          ),
+        ),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-        _buildButtonColumn(color, Icons.near_me, 'Oferecer'),
+        Container(
+          margin: const EdgeInsets.only(top: 1),
+          child: SizedBox(
+            width: 400,
+            height: 155,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ))),
+              onPressed: () {
+                dialogBuilderRegister(context);
+              },
+              child: Text(
+                'Oferecer',
+                style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.w400,
+                  color: color,
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
-
-    // Color.fromARGB(255, 255, 255, 255).withOpacity(0.5)
 
     Widget logoSloganButtonSection = Container(
         padding: const EdgeInsets.all(30),
@@ -56,38 +231,6 @@ class MyHomePage extends StatelessWidget {
           Expanded(child: bigImageSection),
         ],
       ),
-    );
-  }
-
-  Column _buildButtonColumn(Color color, IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(top: 1),
-          child: SizedBox(
-            width: 400,
-            height: 155,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ))),
-              onPressed: () {},
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.w400,
-                  color: color,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
