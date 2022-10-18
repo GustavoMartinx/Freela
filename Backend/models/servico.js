@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const database = require('../db');
 const Usuario = require('./usuario')
 
-const Servico = database.define('servico', {
+const Servico = database.define('SERVICO', {
     id: {
         type: Sequelize.INTEGER,
         autoIncremente: true,
@@ -19,10 +19,16 @@ const Servico = database.define('servico', {
         type: Sequelize.STRING,
         allowNull: false
     }
+},{ freezeTableName: true})
+
+
+Usuario.hasMany(Servico,{
+    foreignKey: 'geracpf'
 })
 
-Usuario.hasMany(Usuario,{
-    foreignKey: 'cpf'
+Usuario.hasMany(Servico,{
+    foreignKey: 'aceitacpf'
 })
+
 
 module.exports = Servico;

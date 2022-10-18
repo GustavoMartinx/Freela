@@ -1,12 +1,19 @@
 const Sequelize = require('sequelize');
 const database = require('../db');
 
-const Usuario = database.define('usuario', {
+const Usuario = database.define('USUARIO', {
     cpf: {
         type: Sequelize.STRING,
         autoIncrement: false,
         allowNull: false,
         primaryKey: true,
+    },
+
+    senha: {
+        type: Sequelize.STRING, // mudar o tamanho disso daqui
+        autoIncrement: false,
+        allowNull: false, 
+        primaryKey: false,
     },
 
     nome: {
@@ -23,6 +30,6 @@ const Usuario = database.define('usuario', {
         type: Sequelize.INTEGER,
         allowNull: false,
     }
-})
+}, { freezeTableName: true})
 
 module.exports = Usuario;
