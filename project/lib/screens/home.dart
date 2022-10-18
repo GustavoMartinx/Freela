@@ -95,7 +95,7 @@ class _MyHomePage extends State<MyHomePage> {
                       onPressed: () => {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const FeedPage()),
+                          MaterialPageRoute(builder: (context) => MyFeed()),
                           )
                       },
                     )
@@ -111,7 +111,7 @@ class _MyHomePage extends State<MyHomePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: const Text('Login'),
+              title: const Text('Registrar'),
               content: Form(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -124,7 +124,7 @@ class _MyHomePage extends State<MyHomePage> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       child: const Text(
-                        'Login',
+                        'Registrar',
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                       onPressed: () => {},
@@ -177,7 +177,7 @@ class _MyHomePage extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(18.0),
               ))),
               onPressed: () {
-                dialogBuilderRegister(context);
+                dialogBuilderLogin(context);
               },
               child: Text(
                 'Oferecer',
