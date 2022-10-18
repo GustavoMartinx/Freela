@@ -6,11 +6,14 @@
     const Servico = require('./models/servico');
     const Usuario = require('./models/usuario');
     const Categoria = require('./models/categoria')
+    const app = express()
+    app.use(express.json())
 
     class USUARIO{
-        cadastrarUsuario(CPF, NOME, DESCRICAO,AVALIACAO){
+        cadastrarUsuario(CPF, SENHA, NOME, DESCRICAO,AVALIACAO){
             Usuario.create({
                 cpf: CPF,
+                senha: SENHA,
                 nome: NOME,
                 descricao: DESCRICAO,
                 avaliacao: AVALIACAO,
