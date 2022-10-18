@@ -1,66 +1,30 @@
-// Copyright 2019 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:flutter/material.dart';
+import './subscreens/sidemenu.dart';
+import './subscreens/pubs.dart';
 
-class FeedPage extends StatelessWidget {
-  const FeedPage({Key? key}) : super(key: key);
-
+class MyFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavDrawer(),
       appBar: AppBar(
-        leading: IconButton(
-          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          icon: const Icon(Icons.menu),
-          onPressed: () {},
-        ),
-        title: const Text(
-          'Freela'
-        ),
+        title: const Text('Menu'),
         actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.favorite,
+          Container(
+            margin: const EdgeInsets.only(right: 15),
+            child: IconButton(
+              tooltip: "Notificações",
+              icon: const Icon(
+                Icons.notifications,
+              ),
+              onPressed: () {},
             ),
-            onPressed: () {},
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.search,
-            ),
-            onPressed: () {},
-          ),
-          PopupMenuButton<Text>(
-            itemBuilder: (context) {
-              return [
-                const PopupMenuItem(
-                  child: Text(
-                    'localization.demoNavigationRailFirst,'
-                  ),
-                ),
-                const PopupMenuItem(
-                  child: Text(
-                    'localization.demoNavigationRailSecond,'
-                  ),
-                ),
-                const PopupMenuItem(
-                  child: Text(
-                    'localization.demoNavigationRailThird,'
-                  ),
-                ),
-              ];
-            },
-          )
         ],
       ),
       body: const Center(
-        child: Text(
-          'Salve'
-        ),
+        child: MyPubs(),
       ),
     );
   }
 }
-
