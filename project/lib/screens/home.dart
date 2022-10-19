@@ -228,13 +228,39 @@ class _MyHomePage extends State<MyHomePage> {
       ],
     );
 
+    Widget _buildThinSite() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          logoSloganButtonSection,
+        ],
+      ),
+    );
+  }
+
+    Widget _buildCompleteSite() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          logoSloganButtonSection,
+          bigImageSection,
+        ],
+      ),
+    );
+  }
+
     return Scaffold(
       backgroundColor: const Color(0xFF0D3071),
-      body: Row(
-        children: [
-          logoSloganButtonSection,
-          Expanded(child: bigImageSection),
-        ],
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          if (constraints.maxWidth > 1314) {
+            return _buildCompleteSite();
+          } else {
+            return _buildThinSite();
+          }
+        },
       ),
     );
   }
