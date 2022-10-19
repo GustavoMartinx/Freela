@@ -96,7 +96,7 @@ class _MyHomePage extends State<MyHomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => MyFeed()),
-                          )
+                        )
                       },
                     )
                   ],
@@ -127,7 +127,12 @@ class _MyHomePage extends State<MyHomePage> {
                         'Registrar',
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
-                      onPressed: () => {},
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyFeed()),
+                        )
+                      },
                     )
                   ],
                 ),
