@@ -8,7 +8,16 @@ class MyFeed extends StatelessWidget {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
-        title: const Text('Menu'),
+        title: InkWell(
+          splashColor: Colors.white.withAlpha(700),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyFeed()),
+            );
+          },
+          child: const Text('Menu'),
+        ),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 15),
