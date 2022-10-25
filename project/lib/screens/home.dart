@@ -1,85 +1,267 @@
 import 'package:flutter/material.dart';
-import 'package:project/widgets/navbar.dart';
-import 'package:project/widgets/form.dart';
-import 'package:project/widgets/web_scrollbar.dart';
+import 'feed.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePage();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final ScrollController _scrollController = ScrollController();
-  double _scrollPosition = 0;
-  double _opacity = 0;
-
-  _scrollListener() {
-    setState(() {
-      _scrollPosition = _scrollController.position.pixels;
-    });
-  }
-
-  @override
-  void initState() {
-    _scrollController.addListener(_scrollListener);
-    super.initState();
-  }
-
+class _MyHomePage extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
+    Color color = Theme.of(context).secondaryHeaderColor;
+    String email;
+    String senha;
 
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: PreferredSize(
-          preferredSize: Size(screenSize.width, 1000),
-          child: Navbar(),
-        ),
-        body: WebScrollbar(
-          color: Colors.blueGrey,
-          backgroundColor: Colors.blueGrey.withOpacity(0.3),
-          width: 10,
-          heightFraction: 0.3,
-          controller: _scrollController,
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            physics: const ClampingScrollPhysics(),
-            child: Column(
-              children: [
-                Container(
-                  // image below the top bar
-                  child: SizedBox(
-                    height: screenSize.height,
-                    // height: screenSize.height * 0.6,
-                    width: screenSize.width,
-                    child: Image.asset(
-                      'images/wp1.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+    final GlobalKey<_MyHomePage> _formKey = GlobalKey<_MyHomePage>();
+
+    Widget buildNome() {
+      return TextFormField(
+        decoration: const InputDecoration(labelText: 'Nome'),
+        validator: (value) {
+          if (value == '') {
+            return 'Digite seu nome';
+          }
+        },
+        onSaved: (value) {
+          email = value.toString();
+        },
+      );
+    }
+
+    Widget buildEmail() {
+      return TextFormField(
+        decoration: const InputDecoration(labelText: 'Email'),
+        validator: (value) {
+          if (value == '') {
+            return 'Digite seu e-mail';
+          }
+        },
+        onSaved: (value) {
+          email = value.toString();
+        },
+      );
+    }
+
+    Widget buildSenha() {
+      return TextFormField(
+        decoration: const InputDecoration(labelText: 'Senha'),
+        validator: (value) {
+          if (value == '') {
+            return 'Digite sua senha';
+          }
+        },
+        onSaved: (value) {
+          senha = value.toString();
+        },
+      );
+    }
+
+    Widget buildSenhaVerif() {
+      return TextFormField(
+        decoration: const InputDecoration(labelText: 'Confirmar senha'),
+        validator: (value) {
+          if (value == '') {
+            return 'Digite sua senha novamente';
+          }
+        },
+        onSaved: (value) {
+          email = value.toString();
+        },
+      );
+    }
+
+    Future<void> dialogBuilderLogin(BuildContext context) {
+      return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text('Login'),
+              content: Form(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    buildEmail(),
+                    buildSenha(),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      child: const Text(
+                        'Logar',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyFeed()),
+                        )
+                      },
+                    )
+                  ],
                 ),
-                Center(
-                  heightFactor: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: screenSize.height * 0.40,
-                      left: screenSize.width / 5,
-                      right: screenSize.width / 5,
-                    ),
-                    child: Card(// floating quick access bar
-                        // ...
-                        ),
-                  ),
+              ));
+        },
+      );
+    }
+
+    Future<void> dialogBuilderRegister(BuildContext context) {
+      return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text('Registrar'),
+              content: Form(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    buildNome(),
+                    buildEmail(),
+                    buildSenha(),
+                    buildSenhaVerif(),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      child: const Text(
+                        'Registrar',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyFeed()),
+                        )
+                      },
+                    )
+                  ],
                 ),
-                // MyCustomForm(),
-              ],
+              ));
+        },
+      );
+    }
+
+    Widget buttonSection = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 1),
+          child: SizedBox(
+            width: 400,
+            height: 155,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ))),
+              onPressed: () {
+                dialogBuilderLogin(context);
+              },
+              child: Text(
+                'Contratar',
+                style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.w400,
+                  color: color,
+                ),
+              ),
             ),
           ),
-        )
+        ),
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+        Container(
+          margin: const EdgeInsets.only(top: 1),
+          child: SizedBox(
+            width: 400,
+            height: 155,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ))),
+              onPressed: () {
+                dialogBuilderLogin(context);
+              },
+              child: Text(
+                'Oferecer',
+                style: TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.w400,
+                  color: color,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+
+    Widget logoSloganButtonSection = Container(
+        padding: const EdgeInsets.all(30),
+        margin: const EdgeInsets.symmetric(vertical: 205),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Image(image: AssetImage('images/logo.png')),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            const Text(
+              "Precisa de dinheiro? Faz um Freela!",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w200,
+                color: Colors.white,
+              ),
+            ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
+            buttonSection,
+          ],
+        ));
+
+    Widget bigImageSection = Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Image(image: AssetImage('images/ilustracao.png')),
+      ],
+    );
+
+    Widget _buildThinSite() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          logoSloganButtonSection,
+        ],
+      ),
+    );
+  }
+
+    Widget _buildCompleteSite() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          logoSloganButtonSection,
+          bigImageSection,
+        ],
+      ),
+    );
+  }
+
+    return Scaffold(
+      backgroundColor: const Color(0xFF0D3071),
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          if (constraints.maxWidth > 1314) {
+            return _buildCompleteSite();
+          } else {
+            return _buildThinSite();
+          }
+        },
+      ),
     );
   }
 }
