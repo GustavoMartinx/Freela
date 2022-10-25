@@ -6,6 +6,7 @@
     const Servico = require('./models/servico');
     const Usuario = require('./models/usuario');
     const Categoria = require('./models/categoria')
+    const express = require('express')
     const app = express()
     app.use(express.json())
 
@@ -110,6 +111,5 @@
     const user = new USUARIO
 
     const novaCategoria = await Categoria.create({id:2, nome:'Domesticos'})
-
-    
+    module.exports = USUARIO    
 })();
