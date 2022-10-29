@@ -3,6 +3,7 @@ var User = require("../index");
 const express = require("express")
 const router = express.Router()
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 const jwtSecret =
   "4715aed3c946f7b0a38e6b534a9583628d84e96d10fbc04700770d572af3dce43625dd" // não usar em produção
