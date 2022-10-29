@@ -228,26 +228,29 @@ class _MyHomePage extends State<MyHomePage> {
       ],
     );
 
-    Widget _buildThinSite() {
+  Widget _buildThinSite() {
     return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          logoSloganButtonSection,
-        ],
-      ),
+        child: FittedBox(
+          fit: BoxFit.contain,
+          child: logoSloganButtonSection,
+        ),
     );
   }
 
-    Widget _buildCompleteSite() {
+  Widget _buildCompleteSite() {
     return Center(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          logoSloganButtonSection,
-          bigImageSection,
-        ],
-      ),
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded (
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: logoSloganButtonSection,
+            )
+          ),
+            Expanded (child: bigImageSection),
+      ]),
     );
   }
 

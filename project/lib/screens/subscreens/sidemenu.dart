@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/subscreens/pubsUser.dart';
 import '../profile.dart';
 import '../home.dart';
+import '../panel.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -26,6 +28,16 @@ class NavDrawer extends StatelessWidget {
               )
             },
           ),
+          ListTile(
+            leading: Icon(Icons.account_balance_outlined),
+            title: Text('Painel de Controle'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyPanel()),
+              )
+            },
+          ), 
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Configurações'),
