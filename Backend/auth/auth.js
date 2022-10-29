@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
-var User = require("../models/usuario.js");
+var User = require("../index");
 const express = require("express")
 const router = express.Router()
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 const jwtSecret =
   "4715aed3c946f7b0a38e6b534a9583628d84e96d10fbc04700770d572af3dce43625dd" // não usar em produção
@@ -10,9 +11,9 @@ const jwtSecret =
   exports.register = async (req, res, next) => {
     const { cpf, senha, nome, descricao, avaliacao} = req.body;
     bcrypt.hash(senha, 10).then(async (hash) => {
-      await User.create({
+      await User.cadastrarUsuario({
       cpf,
-      senha: hash, 
+      senha, 
       nome,
       descricao, 
       avaliacao
@@ -42,7 +43,7 @@ const jwtSecret =
         );
     });
   };
-router.route("/register").post(register)
+router.post("/register", this.register)
 
 exports.login = async (req, res, next) => {
     try {
@@ -75,7 +76,7 @@ exports.login = async (req, res, next) => {
   });
 }
 };
-router.route("/login").post(login);
+router.post("/login", this.login)
 
 exports.deleteUser = async (req, res, next) => {
   const { id } = req.body
@@ -91,7 +92,7 @@ exports.deleteUser = async (req, res, next) => {
     )
 }
 
-router.route("/deleteUser").delete(deleteUser);
+// router.route("/deleteUser").delete(deleteUser);
 
 exports.userAuth = (req, res, next) => {
   const token = req.cookies.jwt
