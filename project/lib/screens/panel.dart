@@ -34,6 +34,15 @@ class MyPanel extends StatelessWidget {
       body: const Center(
         child: PubsUser(),
       ),
+      bottomSheet: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(), padding: const EdgeInsets.all(10)),
+        child: const Icon(
+          Icons.add,
+          size: 40,
+        ),
+        onPressed: () {},
+      ),
     );
   }
 }
