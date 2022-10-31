@@ -16,64 +16,125 @@ class _MyPubsState extends State<MyPubs> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+            titlePadding: const EdgeInsets.all(0),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.black,
+                      size: 25,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
             content: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Card(
-              child: Container(
-                  height: 700,
-                  width: 500,
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 20),
-                        height: 450,
-                        width: 500,
-                        decoration: BoxDecoration(
-                            image: const DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage('/images/post1.jpg'))),
-                      ),
-                      Container(
-                        height: 200,
-                        padding: EdgeInsets.only(top: 20),
-                        child: const Expanded(
-                          flex: 1,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical, //.horizontal
-                            child: Text(
-                                "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classicaContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, \nmaking it over 2000 years old. Richard McClintock, a LatContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Contrary to popular belief, \nLorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Lat Lat Lat Lat 2000 years old. Richard McClintock, a Lat",
-                                textAlign: TextAlign.justify),
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
+                  child: Container(
+                      height: 700,
+                      width: 500,
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(bottom: 20),
+                            height: 450,
+                            width: 500,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage('/images/post1.jpg'))),
                           ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 20),
-                        child: SizedBox(
-                          width: 200,
-                          height: 30,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              'Tenho interesse',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w200,
-                                color: Colors.white,
+                          Container(
+                            height: 200,
+                            padding: EdgeInsets.only(top: 20),
+                            child: const Expanded(
+                              flex: 1,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical, //.horizontal
+                                child: Text(
+                                    "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classicaContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, \nmaking it over 2000 years old. Richard McClintock, a LatContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Contrary to popular belief, \nLorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Lat Lat Lat Lat 2000 years old. Richard McClintock, a Lat",
+                                    textAlign: TextAlign.justify),
                               ),
-                              textAlign: TextAlign.center,
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  )),
-            )
-          ],
-        ));
+                          Container(
+                            padding: EdgeInsets.only(top: 20),
+                            child: SizedBox(
+                              width: 200,
+                              height: 30,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  dialogBuilderNotify(context);
+                                },
+                                child: const Text(
+                                  'Tenho interesse',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w200,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
+                )
+              ],
+            ));
+      },
+    );
+  }
+
+  Future<void> dialogBuilderNotify(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            titlePadding: const EdgeInsets.all(0),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.black,
+                      size: 25,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
+                  child: Container(
+                      height: 50,
+                      width: 500,
+                      child: Text(
+                          'Uma notificação foi enviada ao anunciante. O prazo máximo para retorno é de 24 horas.',
+                          textAlign: TextAlign.justify)),
+                )
+              ],
+            ));
       },
     );
   }
