@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './subscreens/sidemenu.dart';
 import './subscreens/pubsUser.dart';
+import './subscreens/formPub.dart';
 
 class MyPanel extends StatelessWidget {
   @override
@@ -34,14 +35,18 @@ class MyPanel extends StatelessWidget {
       body: const Center(
         child: PubsUser(),
       ),
-      bottomSheet: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            shape: const CircleBorder(), padding: const EdgeInsets.all(10)),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
         child: const Icon(
           Icons.add,
           size: 40,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => FormPub()),
+          );
+        },
       ),
     );
   }
