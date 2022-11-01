@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './subscreens/sidemenu.dart';
 import './subscreens/pubsUser.dart';
+import './feed.dart';
 import './subscreens/formPub.dart';
 
 class MyPanel extends StatelessWidget {
@@ -14,7 +15,7 @@ class MyPanel extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const PubsUser()),
+              MaterialPageRoute(builder: (context) => MyFeed()),
             );
           },
           child: const Text('Menu'),
