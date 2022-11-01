@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class FormPub extends StatelessWidget {
@@ -98,6 +100,17 @@ class FormPub extends StatelessWidget {
       },
     );
   }
+
+//  Widget buildImage() {
+//    return ListTile(
+//      leading: Icon(Icons.attach_file),
+//      title: Text("Adicionar uma imagem para a publicação"),
+//      onTap: selectImage,
+//      trailing: image != null ? Image.file(File(image!.path)) : null, // declarar image
+//    ),
+
+//    Divider()
+//  }
 
   Future<void> dialogBuilderNotify(BuildContext context) {
     return showDialog<void>(
