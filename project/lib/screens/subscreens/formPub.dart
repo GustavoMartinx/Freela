@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class FormPub extends StatelessWidget {
+  XFile? image;
   late String vaga;
   late String desc;
   late String datasHorarios;
@@ -101,16 +103,16 @@ class FormPub extends StatelessWidget {
     );
   }
 
-//  Widget buildImage() {
-//    return ListTile(
-//      leading: Icon(Icons.attach_file),
-//      title: Text("Adicionar uma imagem para a publicação"),
-//      onTap: selectImage,
-//      trailing: image != null ? Image.file(File(image!.path)) : null, // declarar image
-//    ),
+  Widget buildImage() {
+    return ListTile(
+      leading: Icon(Icons.attach_file),
+      title: Text("Adicionar uma Imagem para a Publicação"),
+      onTap: selectImage,
+      trailing: image != null ? Image.file(File(image!.path)) : null,
+    );
 
-//    Divider()
-//  }
+    Divider();
+  }
 
   Future<void> dialogBuilderNotify(BuildContext context) {
     return showDialog<void>(
@@ -153,6 +155,17 @@ class FormPub extends StatelessWidget {
     );
   }
 
+  selectImage() async {
+    final ImagePicker picker = ImagePicker();
+
+    //  try {
+    //    XFile? file = await picker.pickImage(source: ImageSource.gallery);
+    //    if(file != null) setState(() => image = file); // é usado setState mas esse widget nao tem estado. oq fazer?
+    //  } catch (e) {
+    //    print(e);
+    //  }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,33 +176,36 @@ class FormPub extends StatelessWidget {
           color: Colors.black, // <-- SEE HERE
         ),
       ),
-      body: Container(
-        width: 1200,
-        height: 800,
-        padding: EdgeInsets.only(top: 10, left: 700),
-        child: Form(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              buildVaga(),
-              buildDesc(),
-              buildDatasHorarios(),
-              buildValor(),
-              buildModeloTrab(),
-              buildCidadeBairo(),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                child: const Text(
-                  'Publicar',
-                  style: TextStyle(color: Colors.white, fontSize: 14),
-                ),
-                onPressed: () => {
-                  dialogBuilderNotify(context),
-                },
-              )
-            ],
+      body: Center(
+        child: Container(
+          width: 350,
+          height: 800,
+          // padding: EdgeInsets.only(top: 10, left: 700),
+          child: Form(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                buildVaga(),
+                buildDesc(),
+                buildDatasHorarios(),
+                buildValor(),
+                buildModeloTrab(),
+                buildCidadeBairo(),
+                buildImage(),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  child: const Text(
+                    'Publicar',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
+                  onPressed: () => {
+                    dialogBuilderNotify(context),
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
