@@ -62,111 +62,67 @@ class Profile extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 30),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      title: Text(
-                        '5000',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: Colors.orangeAccent,
-                        ),
-                      ),
-                      subtitle: Text(
-                        'Seguidores',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.orangeAccent,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      title: Text(
-                        '5000',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: Colors.orangeAccent,
-                        ),
-                      ),
-                      subtitle: Text(
-                        'Seguindo',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.deepOrange,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
             child: Column(
               children: <Widget>[
                 ListTile(
-                  title: Text(
-                    'Email',
-                    style: TextStyle(
-                      color: Colors.blueAccent,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  title: Center(
+                    child: Text(
+                      'Email',
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  subtitle: Text(
-                    'fulanaciclana@gmail.com',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                Divider(),
-                ListTile(
-                  title: Text(
-                    'GitHub',
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    'https://github.com/Fulana',
-                    style: TextStyle(
-                      fontSize: 18,
+                  subtitle: Center(
+                    child: Text(
+                      'fulanaciclana@gmail.com',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
                 Divider(),
                 ListTile(
-                  title: Text(
-                    'Linkedin',
-                    style: TextStyle(
-                      color: Colors.deepOrange,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  title: Center(
+                    child: Text(
+                      'GitHub',
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  subtitle: Text(
-                    'www.linkedin.com/in/Fulana',
-                    style: TextStyle(
-                      fontSize: 18,
+                  subtitle: Center(
+                    child: Text(
+                      'https://github.com/Fulana',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(),
+                ListTile(
+                  title: Center(
+                    child: Text(
+                      'Linkedin',
+                      style: TextStyle(
+                        color: Colors.deepOrange,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  subtitle: Center(
+                    child: Text(
+                      'www.linkedin.com/in/Fulana',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
