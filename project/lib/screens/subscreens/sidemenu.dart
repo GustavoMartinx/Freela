@@ -30,7 +30,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.account_balance_outlined),
-            title: Text('Painel de Controle'),
+            title: Text('Minhas publicações'),
             onTap: () => {
               Navigator.push(
                 context,
