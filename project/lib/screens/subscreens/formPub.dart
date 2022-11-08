@@ -112,10 +112,12 @@ class _FormPubState extends State<FormPub> {
 
   Widget buildImage() {
     return ListTile(
-      leading: Icon(Icons.attach_file),
+      leading: Icon(Icons.image),
       title: Text("Adicionar uma Imagem para a Publicação"),
       onTap: selectImage,
-      trailing: image != null ? Image.network(image!.path) : null, // Image.file(File(image!.path))
+      trailing: image != null
+          ? Image.network(image!.path)
+          : null, // Image.file(File(image!.path))
     );
   }
 
@@ -209,9 +211,7 @@ class _FormPubState extends State<FormPub> {
   selectImage() async {
     final ImagePicker picker = ImagePicker();
 
-  
     XFile? file = await picker.pickImage(source: ImageSource.gallery);
-    if(file != null) setState(() => image = file);
-  
+    if (file != null) setState(() => image = file);
   }
 }
