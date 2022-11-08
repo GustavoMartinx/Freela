@@ -3,7 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class FormPub extends StatelessWidget {
+class FormPub extends StatefulWidget {
+  const FormPub({super.key});
+
+  @override
+  State<FormPub> createState() => _FormPubState();
+}
+
+class _FormPubState extends State<FormPub> {
   XFile? image;
   late String vaga;
   late String desc;
@@ -108,10 +115,8 @@ class FormPub extends StatelessWidget {
       leading: Icon(Icons.attach_file),
       title: Text("Adicionar uma Imagem para a Publicação"),
       onTap: selectImage,
-      trailing: image != null ? Image.file(File(image!.path)) : null,
+      trailing: image != null ? Image.network(image!.path) : null, // Image.file(File(image!.path))
     );
-
-    Divider();
   }
 
   Future<void> dialogBuilderNotify(BuildContext context) {
@@ -153,17 +158,6 @@ class FormPub extends StatelessWidget {
             ));
       },
     );
-  }
-
-  selectImage() async {
-    final ImagePicker picker = ImagePicker();
-
-    //  try {
-    //    XFile? file = await picker.pickImage(source: ImageSource.gallery);
-    //    if(file != null) setState(() => image = file); // é usado setState mas esse widget nao tem estado. oq fazer?
-    //  } catch (e) {
-    //    print(e);
-    //  }
   }
 
   @override
@@ -210,5 +204,14 @@ class FormPub extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  selectImage() async {
+    final ImagePicker picker = ImagePicker();
+
+  
+    XFile? file = await picker.pickImage(source: ImageSource.gallery);
+    if(file != null) setState(() => image = file);
+  
   }
 }
