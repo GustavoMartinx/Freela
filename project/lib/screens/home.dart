@@ -73,39 +73,6 @@ class _MyHomePage extends State<MyHomePage> {
       );
     }
 
-    Future<void> dialogBuilderLogin(BuildContext context) {
-      return showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: const Text('Login'),
-              content: Form(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    buildEmail(),
-                    buildSenha(),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      child: const Text(
-                        'Logar',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
-                      ),
-                      onPressed: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyFeed()),
-                        )
-                      },
-                    )
-                  ],
-                ),
-              ));
-        },
-      );
-    }
-
     Future<void> dialogBuilderRegister(BuildContext context) {
       return showDialog<void>(
         context: context,
@@ -133,6 +100,52 @@ class _MyHomePage extends State<MyHomePage> {
                           MaterialPageRoute(builder: (context) => MyFeed()),
                         )
                       },
+                    )
+                  ],
+                ),
+              ));
+        },
+      );
+    }
+
+    Future<void> dialogBuilderLogin(BuildContext context) {
+      return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text('Login'),
+              content: Form(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    buildEmail(),
+                    buildSenha(),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        child: const Text(
+                          'Logar',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        ),
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyFeed()),
+                          )
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        child: const Text(
+                          'Registrar',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        ),
+                        onPressed: () => {dialogBuilderRegister(context)},
+                      ),
                     )
                   ],
                 ),
@@ -228,31 +241,30 @@ class _MyHomePage extends State<MyHomePage> {
       ],
     );
 
-  Widget _buildThinSite() {
-    return Center(
+    Widget _buildThinSite() {
+      return Center(
         child: FittedBox(
           fit: BoxFit.contain,
           child: logoSloganButtonSection,
         ),
-    );
-  }
+      );
+    }
 
-  Widget _buildCompleteSite() {
-    return Center(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded (
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: logoSloganButtonSection,
-            )
-          ),
-            Expanded (child: bigImageSection),
-      ]),
-    );
-  }
+    Widget _buildCompleteSite() {
+      return Center(
+        child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                  child: FittedBox(
+                fit: BoxFit.contain,
+                child: logoSloganButtonSection,
+              )),
+              Expanded(child: bigImageSection),
+            ]),
+      );
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xFF0D3071),
