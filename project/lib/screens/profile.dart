@@ -29,6 +29,7 @@ class Profile extends StatelessWidget {
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  // stack
                   children: <Widget>[
                     CircleAvatar(
                       backgroundColor: Colors.white70,
@@ -36,6 +37,19 @@ class Profile extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 80.0,
                         backgroundImage: NetworkImage('assets/images/p1.jpeg'),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 125),
+                            child: Container(
+                              height: 50,
+                              alignment: Alignment.bottomRight,
+                              child: FloatingActionButton(
+                                child: Icon(Icons.camera_alt_rounded),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
