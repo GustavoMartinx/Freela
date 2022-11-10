@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project/screens/feed.dart';
 import 'package:project/screens/subscreens/pubsUser.dart';
 import '../profile.dart';
 import '../home.dart';
@@ -26,16 +25,6 @@ class NavDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyProfile()),
-              )
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.feed),
-            title: Text('Feed'),
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyFeed()),
               )
             },
           ),

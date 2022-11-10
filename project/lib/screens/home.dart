@@ -140,17 +140,9 @@ class _MyHomePage extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0.0,
-                          primary: Colors.red.withOpacity(0),
-                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(2),)
-                           ),
-                          side: BorderSide(color: Colors.white)),
-                         
                         child: const Text(
-                          'Não possui conta? Registrar',
-                          style: TextStyle(color: Color(0xFF0D3071), fontSize: 14),
+                          'Registrar',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
                         ),
                         onPressed: () => {dialogBuilderRegister(context)},
                       ),

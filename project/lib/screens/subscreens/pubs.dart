@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../profile2.dart';
+import '../profile.dart';
 
 class MyPubs extends StatefulWidget {
   const MyPubs({super.key});
@@ -177,7 +177,7 @@ class _MyPubsState extends State<MyPubs> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Profile2()),
+                                          builder: (context) => MyProfile()),
                                     );
                                   },
                                   child: Container(
@@ -196,7 +196,7 @@ class _MyPubsState extends State<MyPubs> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Profile2()),
+                                          builder: (context) => MyProfile()),
                                     );
                                   },
                                   child: const Text(
