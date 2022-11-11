@@ -1,31 +1,34 @@
 
 (async () => {
+    //INICIALIZACAO SERVER
+    const http = require('http');
+    const app = require('./server');
+    const port = process.env.PORT || 3000;
+    const server = http.createServer(app)
+    
     const database = require('./db');
     const Disponibilidade = require('./models/disponibilidade');
     const Endereco = require('./models/endereco');
     const Servico = require('./models/servico');
     const Usuario = require('./models/usuario');
     const Categoria = require('./models/categoria')
-    const express = require('express')
-    const app = express()
-    app.use(express.json())
-
+    
     class USUARIO{
-        cadastrarUsuario(CPF, SENHA, NOME, DESCRICAO,AVALIACAO){
+        cadastrarUsuario(CPF, NOME, DESCRICAO,AVALIACAO,SENHA){
             Usuario.create({
                 cpf: CPF,
-                senha: SENHA,
                 nome: NOME,
                 descricao: DESCRICAO,
                 avaliacao: AVALIACAO,
+                senha: SENHA
             })
             console.log("cadastrado "+ CPF)
         }
-
+        
         procurarUsuario(CPF){
             return Usuario.findByPk(CPF)
         }
-
+        
         deletarUsuario(CPF){
             Usuario.destroy({
                 where: {
@@ -34,7 +37,7 @@
             })
         }
     }
-
+    
     class SERVICO{
         gerarServico(ID, VALOR, DESCRICAO, CPF_GERA, CPF_ACEITA){
             Servico.create({
@@ -45,7 +48,7 @@
                 aceitacpf: CPF_ACEITA
             })
         }
-
+        
         aceitaServico(ID, VALOR, DESCRICAO, CPF_GERA, CPF_ACEITA){
             Servico.create({
                 id: ID,
@@ -55,24 +58,24 @@
                 aceitacpf: CPF_ACEITA
             })
         }
-
+        
         servicosAceitos(CPF_ACEITA){
             return Servico.findAll({
-                    where: {
-                        cpf: CPF_ACEITA
-                    }
-                });
+                where: {
+                    cpf: CPF_ACEITA
+                }
+            });
         }
-
+        
         servicosGerados(CPF_ACEITA){
             return Servico.findAll({
-                    where: {
-                        cpf: CPF_ACEITA
-                    }
-                });
+                where: {
+                    cpf: CPF_ACEITA
+                }
+            });
         }
     }
-
+    
     class DISPONIBILIDADE{
         adicionarDisponibilidade(ID ,SERVICO_ID, DATA, SEMANAL, HORARIO_INICIO, HORARIO_FIM){
             Disponibilidade.create({
@@ -84,16 +87,16 @@
                 horario_fim: HORARIO_FIM
             })
         }
-
+        
         procurarDisponibilidade(SERVICO_ID){
             return Disponibilidade.findAll({
-                    where: {
-                        servicoID: SERVICO_ID,
-                    }
-                })
+                where: {
+                    servicoID: SERVICO_ID,
+                }
+            })
         }
     }
-
+    
     class CATEGORIA{
         cadastrarCategoria(ID, NOME){
             Categoria.create({
@@ -101,15 +104,18 @@
                 nome: NOME
             })
         }
-
+        
         pesquisarCategorias(){
-
+            
         }
     }
-
+    
     await database.sync();
     const user = new USUARIO
+    //user.deletarUsuario('464464464');
+    //user.cadastrarUsuario('464464464', 'Cleber', 'Cliente bom', 5, '911234');
+    
 
-    const novaCategoria = await Categoria.create({id:2, nome:'Domesticos'})
-    module.exports = USUARIO    
+    //SERVER SENDO LIGADO
+    server.listen(port)
 })();

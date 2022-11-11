@@ -9,13 +9,6 @@ const Usuario = database.define('USUARIO', {
         primaryKey: true,
     },
 
-    senha: {
-        type: Sequelize.STRING, // mudar o tamanho disso daqui
-        autoIncrement: false,
-        allowNull: false, 
-        primaryKey: false,
-    },
-
     nome: {
         type: Sequelize.STRING,
         allowNull: false
@@ -29,6 +22,11 @@ const Usuario = database.define('USUARIO', {
     avaliacao: {
         type: Sequelize.INTEGER,
         allowNull: false,
+    },
+
+    senha: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 }, { freezeTableName: true})
 
