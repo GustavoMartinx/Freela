@@ -28,7 +28,7 @@ class _PubsUserState extends State<PubsUser> {
                     children: [
                       Container(
                         padding: EdgeInsets.only(bottom: 20),
-                        height: 400,
+                        height: 390,
                         width: 300,
                         decoration: BoxDecoration(
                             image: const DecorationImage(
