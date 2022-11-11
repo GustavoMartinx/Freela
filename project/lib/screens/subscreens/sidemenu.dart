@@ -4,6 +4,7 @@ import 'package:project/screens/subscreens/pubsUser.dart';
 import '../profile.dart';
 import '../home.dart';
 import '../panel.dart';
+import '../teste.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -48,7 +49,7 @@ class NavDrawer extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => MyPanel()),
               )
             },
-          ), 
+          ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Configurações'),
@@ -66,6 +67,16 @@ class NavDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyHomePage()),
+              )
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.verified_user),
+            title: Text('Teste'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Teste()),
               )
             },
           ),
