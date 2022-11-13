@@ -1,8 +1,17 @@
-const express = require('express');
-const app = express();
+// Inicialização do servidor
 
-const rotaCliente = require('./routes/cliente');
+import app from './index.js';
 
-app.use('/cliente', rotaCliente);
+const port = process.env.PORT || 3000;
 
-module.exports = app
+app.listen(port, () => {
+    console.log('Freela rodando na porta: ', port);
+});
+
+// Rotas em index.js
+
+// const rotaCliente = require('./routes/cliente');
+
+// app.use('/cliente', rotaCliente);
+
+// module.exports = app
