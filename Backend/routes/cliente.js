@@ -1,26 +1,29 @@
-const express = require('express');
-const router = express.Router();
+// Todas gerações de rotas em routes.js e verificação de resposta
+// nos DAOs
 
-router.get('/', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'usando GET'
-    });
-});
+// const express = require('express');
+// const router = express.Router();
 
-router.post('/', (req, res, next) => {
-    res.status(201).send({
-        mensagem: 'usando POST'
-    });
-});
+// router.get('/', (req, res, next) => {
+//     res.status(200).send({
+//         mensagem: 'usando GET'
+//     });
+// });
 
-router.get('/:email', (req, res, next) => {
-    const email = req.params.email;
-    res.status(200).send({
-        mensagem: 'voce passou um email'
-    })
+// router.post('/', (req, res, next) => {
+//     res.status(201).send({
+//         mensagem: 'usando POST'
+//     });
+// });
 
-    console.log(email);
-})
+// router.get('/:email', (req, res, next) => {
+//     const email = req.params.email;
+//     res.status(200).send({
+//         mensagem: 'voce passou um email'
+//     })
+
+//     console.log(email);
+// })
 
 
-module.exports = router;
+// module.exports = router;
