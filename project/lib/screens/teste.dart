@@ -1,41 +1,39 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<Perfil> fetchPerfil() async {
-  final response = await http
-      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+import '../models/usuario.dart';
+
+Future<Usuario> fetchUsuario() async {
+  final response = await http.get(
+      Uri.parse('http://localhost:3000/show-usuario/1')
+      //res.header("Access-Control-Allow-Methods", 'GET, PUT, POST, DELETE');
+
+      // Indica qual tipo de conteúdo autorizar.
+
+      // res.header("Access-Control-Allow-Headers", 'X-PINGOTHER, Content-Type, Authorization');
+      // headers: {
+      //   HttpHeaders.accessControlAllowOriginHeader: '*',
+      //   HttpHeaders.accessControlAllowMethodsHeader: 'GET, PUT, POST, DELETE',
+      //   HttpHeaders.accessControlAllowHeadersHeader:
+      //       'X-PINGOTHER, Content-Type, Authorization',
+      //   HttpHeaders.contentTypeHeader: 'application/json',
+      //   HttpHeaders.acceptHeader: 'application/json'
+      // },
+      );
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return Perfil.fromJson(jsonDecode(response.body));
+
+    return Usuario.fromJson(jsonDecode(response.body)['user']);
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Failed to load Perfil');
-  }
-}
-
-class Perfil {
-  final int userId;
-  final int id;
-  final String title;
-
-  const Perfil({
-    required this.userId,
-    required this.id,
-    required this.title,
-  });
-
-  factory Perfil.fromJson(Map<String, dynamic> json) {
-    return Perfil(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-    );
+    throw Exception('Failed to load Usuario');
   }
 }
 
@@ -47,12 +45,12 @@ class Teste extends StatefulWidget {
 }
 
 class _TesteState extends State<Teste> {
-  late Future<Perfil> futurePerfil;
+  late Future<Usuario> futureUsuario;
 
   @override
   void initState() {
     super.initState();
-    futurePerfil = fetchPerfil();
+    futureUsuario = fetchUsuario();
   }
 
   @override
@@ -67,15 +65,17 @@ class _TesteState extends State<Teste> {
           title: const Text('Fetch Data Example'),
         ),
         body: Center(
-          child: FutureBuilder<Perfil>(
-            future: futurePerfil,
+          child: FutureBuilder<Usuario>(
+            future: futureUsuario,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(
                   children: [
-                    Text(snapshot.data!.userId.toString()),
-                    Text(snapshot.data!.id.toString()),
-                    Text(snapshot.data!.title)
+                    Text(snapshot.data!.cpf),
+                    Text(snapshot.data!.nome),
+                    Text(snapshot.data!.profissao),
+                    Text(snapshot.data!.imagem),
+                    Text(snapshot.data!.descricao)
                   ],
                 );
               } else if (snapshot.hasError) {
