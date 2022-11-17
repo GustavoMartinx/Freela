@@ -28,7 +28,7 @@ class _PubsUserState extends State<PubsUser> {
                     children: [
                       Container(
                         padding: EdgeInsets.only(bottom: 20),
-                        height: 400,
+                        height: 390,
                         width: 300,
                         decoration: BoxDecoration(
                             image: const DecorationImage(
@@ -74,7 +74,7 @@ class _PubsUserState extends State<PubsUser> {
         controller: _controllerOne,
         itemCount: 10,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, mainAxisExtent: 700),
+            crossAxisCount: 3, mainAxisExtent: 400, crossAxisSpacing: 30),
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
@@ -90,13 +90,13 @@ class _PubsUserState extends State<PubsUser> {
                     dialogBuilderPub(context);
                   },
                   child: Container(
-                      height: 450,
-                      width: 300,
+                      height: 350,
+                      width: 400,
                       child: Column(
                         children: [
                           Container(
-                            height: 400,
-                            width: 300,
+                            height: 250,
+                            width: 400,
                             decoration: BoxDecoration(
                                 image: const DecorationImage(
                                     fit: BoxFit.cover,

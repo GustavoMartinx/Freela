@@ -43,10 +43,6 @@ class Profile extends StatelessWidget {
                             child: Container(
                               height: 50,
                               alignment: Alignment.bottomRight,
-                              child: FloatingActionButton(
-                                child: Icon(Icons.camera_alt_rounded),
-                                onPressed: () {},
-                              ),
                             ),
                           ),
                         ),
@@ -102,7 +98,7 @@ class Profile extends StatelessWidget {
                 ListTile(
                   title: Center(
                     child: Text(
-                      'GitHub',
+                      'Git',
                       style: TextStyle(
                         color: Colors.blueGrey,
                         fontSize: 20,
@@ -149,7 +145,7 @@ class Profile extends StatelessWidget {
   }
 }
 
-class MyProfile extends StatelessWidget {
+class Profile2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

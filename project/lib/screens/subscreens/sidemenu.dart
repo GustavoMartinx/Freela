@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/feed.dart';
 import 'package:project/screens/subscreens/pubsUser.dart';
 import '../profile.dart';
 import '../home.dart';
 import '../panel.dart';
+import '../testeFetch.dart';
+import '../testeSend.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -29,15 +32,25 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: Icon(Icons.feed),
+            title: Text('Feed'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyFeed()),
+              )
+            },
+          ),
+          ListTile(
             leading: Icon(Icons.account_balance_outlined),
-            title: Text('Painel de Controle'),
+            title: Text('Minhas publicações'),
             onTap: () => {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyPanel()),
               )
             },
-          ), 
+          ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Configurações'),
@@ -55,6 +68,26 @@ class NavDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyHomePage()),
+              )
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.verified_user),
+            title: Text('Teste Fetch'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TesteFetch()),
+              )
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.verified_user),
+            title: Text('Teste Send'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TesteSend()),
               )
             },
           ),

@@ -1,19 +1,10 @@
-const Sequelize = require('sequelize');
-const database = require('../db');
+import Sequelize from 'sequelize';
+import database from '../config/db.js';
 
 const Usuario = database.define('USUARIO', {
     cpf: {
         type: Sequelize.STRING,
-        autoIncrement: false,
-        allowNull: false,
-        primaryKey: true,
-    },
-
-    senha: {
-        type: Sequelize.STRING, // mudar o tamanho disso daqui
-        autoIncrement: false,
-        allowNull: false, 
-        primaryKey: false,
+        allowNull: false
     },
 
     nome: {
@@ -21,15 +12,35 @@ const Usuario = database.define('USUARIO', {
         allowNull: false
     },
 
-    descricao: {
+    profissao: {
         type: Sequelize.STRING,
         allowNull: false
     },
 
-    avaliacao: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    }
-}, { freezeTableName: true})
+    imagem: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+    },
 
-module.exports = Usuario;
+    descricao: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+
+    // avaliacao: {
+    //     type: Sequelize.INTEGER,
+    //     allowNull: false,
+    // },
+
+    // Criar uma tabela Login?
+
+    // senha: {
+    //     type: Sequelize.STRING,
+    //     allowNull: false
+    // }
+}, {
+    freezeTableName: true,
+    timestamps: false
+});
+
+export default Usuario;
