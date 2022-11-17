@@ -5,6 +5,7 @@ import '../profile.dart';
 import '../home.dart';
 import '../panel.dart';
 import '../teste.dart';
+import '../testeSend.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -72,11 +73,21 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.verified_user),
-            title: Text('Teste'),
+            title: Text('Teste Fetch'),
             onTap: () => {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Teste()),
+              )
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.verified_user),
+            title: Text('Teste Send'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TesteSend()),
               )
             },
           ),
