@@ -9,13 +9,12 @@ import DAOUsuario from '../DAOs/usuarioDAO.js';
 // import DAOServico from '../DAOs/servicoDAO.js';
 
 
-routes.post('/store-usuario', DAOUsuario.store);
-routes.get('/show-usuario/:id', DAOUsuario.show);
+routes.post('/store-usuario', DAOUsuario.cadastrar);
+routes.post("/login", DAOUsuario.login);
 routes.get('/delete-usuario/:id', DAOUsuario.delete);
 
-// routes.post("/register", AppController.register);
-// routes.post("/login", AppController.login);
-// routes.route("/deleteUser").delete(AppController.deleteUser);
+routes.get('/show-usuario/:id', DAOUsuario.show);
+
 
 // routes.post('/cad-categoria', CategoriaController.cadastrarCategoria);
 // routes.get('/show-categoria', CategoriaController.pesquisarCategorias);
