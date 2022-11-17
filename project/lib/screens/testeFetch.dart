@@ -37,14 +37,14 @@ Future<Usuario> fetchUsuario() async {
   }
 }
 
-class Teste extends StatefulWidget {
-  const Teste({super.key});
+class TesteFetch extends StatefulWidget {
+  const TesteFetch({super.key});
 
   @override
-  State<Teste> createState() => _TesteState();
+  State<TesteFetch> createState() => _TesteState();
 }
 
-class _TesteState extends State<Teste> {
+class _TesteState extends State<TesteFetch> {
   late Future<Usuario> futureUsuario;
 
   @override

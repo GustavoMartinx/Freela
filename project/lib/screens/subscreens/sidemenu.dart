@@ -4,7 +4,7 @@ import 'package:project/screens/subscreens/pubsUser.dart';
 import '../profile.dart';
 import '../home.dart';
 import '../panel.dart';
-import '../teste.dart';
+import '../testeFetch.dart';
 import '../testeSend.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -77,7 +77,7 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Teste()),
+                MaterialPageRoute(builder: (context) => TesteFetch()),
               )
             },
           ),
