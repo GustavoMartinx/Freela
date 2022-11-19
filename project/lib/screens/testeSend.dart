@@ -14,13 +14,15 @@ Future<Usuario> createUsuario(String title) async {
     body: jsonEncode(<String, String>{
       'title': title,
       // 'senha': senha,
+      // outros campos
     }),
   );
 
   if (response.statusCode == 201) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-    return Usuario.fromJson(jsonDecode(response.body)); // estranho ()
+    return Usuario.fromJson(
+        jsonDecode(response.body)); // estranho (colocar popup?)
   } else {
     // If the server did not return a 201 CREATED response,
     // then throw an exception.

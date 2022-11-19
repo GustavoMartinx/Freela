@@ -3,6 +3,7 @@ import { Router } from 'express';
 const routes = new Router();
 
 import DAOUsuario from '../DAOs/usuarioDAO.js';
+import DAOPub from '../DAOs/pubDAO.js';
 // import DAOApp from '../DAOs/appDAO.js';
 // import DAOCategoria from '../DAOs/categoriaDAO.js';
 // import DAODisponibilidade from '../DAOs/disponibilidadeDAO.js';
@@ -12,8 +13,10 @@ import DAOUsuario from '../DAOs/usuarioDAO.js';
 routes.post('/store-usuario', DAOUsuario.cadastrar);
 routes.post("/login", DAOUsuario.login);
 routes.get('/delete-usuario/:id', DAOUsuario.delete);
-
 routes.get('/show-usuario/:id', DAOUsuario.show);
+
+routes.post('/store-pub', DAOPub.cadastrar);
+// routes.get('/delete-pub/:id', DAOUsuario.delete);
 
 
 // routes.post('/cad-categoria', CategoriaController.cadastrarCategoria);

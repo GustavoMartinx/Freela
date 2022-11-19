@@ -3,6 +3,7 @@ import './subscreens/sidemenu.dart';
 import './subscreens/pubsUser.dart';
 import './feed.dart';
 import './subscreens/formPub.dart';
+import './notifications.dart';
 
 class MyPanel extends StatelessWidget {
   @override
@@ -28,7 +29,12 @@ class MyPanel extends StatelessWidget {
               icon: const Icon(
                 Icons.notifications,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Notificacao()),
+                );
+              },
             ),
           ),
         ],
