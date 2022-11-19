@@ -34,7 +34,7 @@ class _NotificacaoState extends State<Notificacao> {
                 child: InkWell(
                   splashColor: Colors.white.withAlpha(700),
                   onTap: () {
-                    dialogBuilderPub(context);
+                    //dialogBuilderPub(context);
                   },
                   child: Container(
                       height: 350,
