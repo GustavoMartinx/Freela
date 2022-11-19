@@ -7,30 +7,38 @@ import 'package:image_picker/image_picker.dart';
 import '../../models/pubForm.dart';
 import 'package:http/http.dart' as http;
 
-Future<Pub> createPub(String vaga, String desc, String datasHorarios,
-    String valor, String modeloTrab, String cidadeBairro, String imagem) async {
+Future<Pub> createPub(
+    String titulo,
+    String vaga,
+    String desc,
+    String datasHorarios,
+    String valor,
+    String modeloTrab,
+    String cidadeBairro,
+    Future<String> imagem) async {
   final response = await http.post(
     Uri.parse(
-        'https://jsonplaceholder.typicode.com/albums'), //https://localhost:3000/store-Pub/
+        'http://localhost:3000/store-pub/'), //https://jsonplaceholder.typicode.com/albums  // http://localhost:3000/store-pub/
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{
-      // mas e o id?
+    body: jsonEncode(<String, dynamic>{
+      'titulo': titulo,
       'vaga': vaga,
       'desc': desc,
       'datasHorarios': datasHorarios,
       'valor': valor,
       'modeloTrab': modeloTrab,
       'cidadeBairro': cidadeBairro,
-      'imagem': imagem,
+      'imagem': imagem.toString(),
     }),
   );
 
   if (response.statusCode == 201) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-    return Pub.fromJson(jsonDecode(response.body)); // estranho (colocar popup?)
+    return Pub.fromJson(
+        jsonDecode(response.body)['dados']); // estranho (colocar popup?)
   } else {
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
@@ -46,22 +54,42 @@ class FormPub extends StatefulWidget {
 }
 
 class _FormPubState extends State<FormPub> {
-  
+  final TextEditingController _controllerTitulo = TextEditingController();
   final TextEditingController _controllerVaga = TextEditingController();
   final TextEditingController _controllerDesc = TextEditingController();
-  final TextEditingController _controllerDatasHorarios = TextEditingController();
+  final TextEditingController _controllerDatasHorarios =
+      TextEditingController();
   final TextEditingController _controllerValor = TextEditingController();
   final TextEditingController _controllerModeloTrab = TextEditingController();
   final TextEditingController _controllerCidadeBairro = TextEditingController();
   Future<Pub>? _futurePub;
-  
+
   XFile? image;
+  // late String titulo;
   late String vaga;
   late String desc;
   late String datasHorarios;
   late String valor;
   late String modeloTrab;
   late String cidadeBairro;
+  late Future<String> x;
+
+  Widget buildTitulo() {
+    return TextFormField(
+      decoration: const InputDecoration(
+          labelText: 'Título da Publicação',
+          hintText: 'Informe um Título para a Publicação'),
+      validator: (value) {
+        if (value == '') {
+          return 'Campo obrigatório';
+        }
+      },
+      // onSaved: (value) {
+      //   vaga = value.toString();
+      // },
+      controller: _controllerTitulo,
+    );
+  }
 
   Widget buildVaga() {
     return TextFormField(
@@ -92,6 +120,7 @@ class _FormPubState extends State<FormPub> {
       onSaved: (value) {
         desc = value.toString();
       },
+      controller: _controllerDesc,
     );
   }
 
@@ -108,6 +137,7 @@ class _FormPubState extends State<FormPub> {
       onSaved: (value) {
         datasHorarios = value.toString();
       },
+      controller: _controllerDatasHorarios,
     );
   }
 
@@ -123,6 +153,7 @@ class _FormPubState extends State<FormPub> {
       onSaved: (value) {
         valor = value.toString();
       },
+      controller: _controllerValor,
     );
   }
 
@@ -138,6 +169,7 @@ class _FormPubState extends State<FormPub> {
       onSaved: (value) {
         modeloTrab = value.toString();
       },
+      controller: _controllerModeloTrab,
     );
   }
 
@@ -152,14 +184,19 @@ class _FormPubState extends State<FormPub> {
       onSaved: (value) {
         cidadeBairro = value.toString();
       },
+      controller: _controllerCidadeBairro,
     );
   }
 
   Widget buildImage() {
     return ListTile(
       leading: Icon(Icons.image),
-      title: Text("Adicionar uma Imagem para a Publicação"),
-      onTap: selectImage,
+      title: const Text("Adicionar uma Imagem para a Publicação"),
+      onTap: (() {
+        //controller:
+        x = selectImage();
+        print(x);
+      }),
       trailing: image != null
           ? Image.network(image!.path)
           : null, // Image.file(File(image!.path))
@@ -222,39 +259,49 @@ class _FormPubState extends State<FormPub> {
           width: 350,
           height: 800,
           // padding: EdgeInsets.only(top: 10, left: 700),
-          child: Form(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: 
-              // if (_futurePub == null) {
-              <Widget>[
-                buildVaga(),
-                buildDesc(),
-                buildDatasHorarios(),
-                buildValor(),
-                buildModeloTrab(),
-                buildCidadeBairo(),
-                buildImage(),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  child: const Text(
-                    'Publicar',
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  ),
-                  onPressed: () => {
-                    // dialogBuilderNotify(context),
-                    setState(() {
-                      _futurePub = createPub(_controllerVaga.text, _controllerDesc, _controllerDatasHorarios,
-    _controllerValor, _controllerModeloTrab, _controllerCidadeBairro/*, imagem*/); // colocar .text em todos
-                    });
-                  },
-                ),
-              ],//} else{ buildFutureBuilder() },
-            ),
-          ),
+          child: (_futurePub == null) ? buildForm() : buildFutureBuilder(),
         ),
+      ),
+    );
+  }
+
+  Form buildForm() {
+    return Form(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          buildTitulo(),
+          buildVaga(),
+          buildDesc(),
+          buildDatasHorarios(),
+          buildValor(),
+          buildModeloTrab(),
+          buildCidadeBairo(),
+          buildImage(),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            child: const Text(
+              'Publicar',
+              style: TextStyle(color: Colors.white, fontSize: 14),
+            ),
+            onPressed: () => {
+              setState(() {
+                _futurePub = createPub(
+                  _controllerTitulo.text,
+                  _controllerVaga.text,
+                  _controllerDesc.text,
+                  _controllerDatasHorarios.text,
+                  _controllerValor.text,
+                  _controllerModeloTrab.text,
+                  _controllerCidadeBairro.text,
+                  x, // imagem
+                );
+              }),
+            },
+          ),
+        ],
       ),
     );
   }
@@ -264,9 +311,15 @@ class _FormPubState extends State<FormPub> {
       future: _futurePub,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(snapshot.data!.vaga);
+          // dialogBuilderNotify(context);
+          return Text(snapshot.data!.titulo); // publi (completa?) criada!
+          //return Text(snapshot.data!.desc);
+          //return Text(snapshot.data!.datasHorarios);
+          //return Text(snapshot.data!.valor);
+          //return Text(snapshot.data!.modeloTrab);
+          //return Text(snapshot.data!.cidadeBairro);
         } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
+          return Text('eh isso aqui: ${snapshot.error}');
         }
 
         return const CircularProgressIndicator();
@@ -274,10 +327,31 @@ class _FormPubState extends State<FormPub> {
     );
   }
 
-  selectImage() async {
+  Future<String> selectImage() async {
     final ImagePicker picker = ImagePicker();
 
     XFile? file = await picker.pickImage(source: ImageSource.gallery);
     if (file != null) setState(() => image = file);
+
+    final imageBytes = await file!.readAsBytes();
+    MemoryImage(imageBytes);
+    String base64Image = base64Encode(imageBytes);
+
+    return base64Image;
+    // print(base64Image);
+
+    // File imageFile = File(file!.path);
+    // List<int> imageBytes = imageFile.readAsBytesSync();
+    // String base64Image = base64.encode(imageBytes);
+    // print(base64Image);
+
+    // final xFile = await _controller.takePicture();
+    // final path = file.path;
+    // final bytes = await File(path).readAsBytes();
+    // final img.Image image = img.decodeImage(bytes);
+
+    //final imageFile = Image.network(file!.path);
+    // XFile.fromData(Image.network("").);
+    //String base64Image = base64Encode(imageBytes);
   }
 }
