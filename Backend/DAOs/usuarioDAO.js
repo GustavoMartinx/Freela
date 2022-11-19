@@ -1,6 +1,7 @@
 import Usuario from '../models/usuario.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import jwtSecret from '../config/auth.js';
 // const jwt = require('jsonwebtoken')
 // const bcrypt = require('bcrypt')
 
@@ -9,7 +10,7 @@ class DAOUsuario {
 
         var dados = req.body;
         // criptografar a senha do usuário antes de guardar no banco de dados
-        dados.senha = bcrypt.hash(dados.senha, 10)
+        dados.senha = await bcrypt.hash(dados.senha, 10)
         //cria um usuário e insere no BD
         const user = await Usuario.create(dados, (err) => {
             if (err) return res.status(400).json({        
@@ -19,30 +20,32 @@ class DAOUsuario {
             });
             // cria um json web token para manter logado
             // é necessário passar esse token sempre q fizer algo 
-            const maxAge = 3 * 60 * 60;
-            const token = jwt.sign(
-                { id: user.cpf, nome},
-                    jwtSecret,
-                {
-                    expiresIn: maxAge, // 3hrs in sec
-                }
-            );
-            res.cookie("jwt", token, {
-                httpOnly: true,
-                maxAge: maxAge * 1000, // 3hrs in ms
-            });
+           
             // return res.status(200).json({
             //     error: false,
             //     message: "Usuário cadastrado com sucesso!",
             //     dados: user
             // });
         });
-
-        return res.status(200).json({
+        const maxAge = 3 * 60 * 60; 
+        const token = jwt.sign(
+            { id: dados.cpf, nome: dados.nome},
+                jwtSecret,
+            {
+                expiresIn: maxAge, // 3hrs in sec
+            }
+        );
+        res.cookie("jwt", token, {
+            httpOnly: false,
+            maxAge: maxAge * 1000, // 3hrs in ms
+            
+        });
+        res.status(200).json({
             error: false,
             message: "Usuário cadastrado com sucesso!",
             dados: user
         });
+        return res;
     }
 
     async show(req, res) {
@@ -63,14 +66,18 @@ class DAOUsuario {
     async login(req, res, next){
             try {
             // procura o usuário que tentou logar no banco de dados
-            const user = await Usuario.findOne({ where: {id: req.params.id} })
-            bcrypt.compare(req.senha, user.senha).then(function (result) {
+            var dados = req.body;
+            const user = await Usuario.findOne({ where: {cpf: dados.cpf} })  // achando usuario
+            //dados.senha = await bcrypt.hash(dados.senha, 10)
+            bcrypt.compare(dados.senha, user.senha).then(function (result) {
             //cria um json web token pra ele
             // é necessário passar esse token sempre q fizer algo 
+            console.log(result);
+
               if (result) {
                 const maxAge = 3 * 60 * 60;
                 const token = jwt.sign(
-                  {id: user.cpf, nome},
+                  {id: user.cpf, nome: user.nome},
                   jwtSecret,
                   {
                     expiresIn: maxAge, // 3hrs in sec
@@ -84,10 +91,14 @@ class DAOUsuario {
                   message: "User successfully Logged in"
                 });
               } else {
+                res.cookie("jwt", 'not today', {
+                    httpOnly: false,
+                    maxAge: 2,
+                  }); // escrevendo reto por linhas tortas AMEM
                 res.status(400).json({ message: "Login not succesful" });
               }
             });
-          } catch (error) {
+           } catch (error) {
           res.status(400).json({
             message: "An error occurred",
             error: error.message,
@@ -112,6 +123,21 @@ class DAOUsuario {
             message: "Usuário apagado com sucesso!"
         });
     }
+    async userAuth(req, res, next){
+        const token = req.headers.cookie.slice(4);
+        if (token) {
+            jwt.verify(token, jwtSecret, (err, decodedToken) => {
+                if (err) {
+                    return res.status(401).json({ message: "Not authorized" })
+                }
+                // chamar essa funcao aqui dentro das outras qnd precisar verificar se o user ta logado msm
+                // se tu chamar pela rota o comportamento certo é não responder nada e o postman ficar esperando pra sempre
+            })
+        } else {
+            return res
+            .status(401)
+            .json({ message: "Not authorized, token not available" })
+          }};
 }
 
 export default new DAOUsuario();

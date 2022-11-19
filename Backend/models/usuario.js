@@ -7,6 +7,11 @@ const Usuario = database.define('USUARIO', {
         allowNull: false
     },
 
+    senha: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    
     nome: {
         type: Sequelize.STRING,
         allowNull: false
@@ -18,7 +23,7 @@ const Usuario = database.define('USUARIO', {
     },
 
     imagem: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         allowNull: true,
     },
 

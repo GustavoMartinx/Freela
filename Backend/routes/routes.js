@@ -16,6 +16,7 @@ routes.get('/delete-usuario/:id', DAOUsuario.delete);
 routes.get('/show-usuario/:id', DAOUsuario.show);
 
 routes.post('/store-pub', DAOPub.cadastrar);
+routes.get('/teste-de-cookies', DAOUsuario.userAuth);
 // routes.get('/delete-pub/:id', DAOUsuario.delete);
 
 
