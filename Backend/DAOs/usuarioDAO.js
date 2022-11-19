@@ -1,6 +1,8 @@
 import Usuario from '../models/usuario.js';
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+// const jwt = require('jsonwebtoken')
+// const bcrypt = require('bcrypt')
 
 class DAOUsuario {
     async cadastrar(req, res) {
