@@ -1,5 +1,61 @@
 import 'package:flutter/material.dart';
 import 'feed.dart';
+import '../models/usuario.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+Future<Usuario> registerUsuario(
+  String cpf,
+  String email,
+  String senha,
+  String nome,
+) async {
+  final response = await http.post(
+    Uri.parse('http://localhost:3000/register-usuario'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'cpf': cpf,
+      'email': email,
+      'senha': senha,
+      'nome': nome,
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    return Usuario.fromJson(
+        jsonDecode(response.body)['dados']); // estranho (colocar popup?)
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Falha ao registrar o usuário.');
+  }
+}
+
+Future<dynamic> loginUsuario(
+  String email,
+  String senha,
+) async {
+  final response =
+      await http.post(Uri.parse('http://localhost:3000/login-usuario'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, dynamic>{'email': email, 'senha': senha}));
+
+  if (response.statusCode == 201) {
+    return jsonDecode(response.body)['user']; // estranho (colocar popup?)
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Falha ao logar o usuário.');
+  }
+}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -9,158 +65,203 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePage extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    Color color = Theme.of(context).secondaryHeaderColor;
-    String email;
-    String senha;
+  final TextEditingController _controllerNome = TextEditingController();
+  final TextEditingController _controllerCpf = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerSenha = TextEditingController();
 
-    final GlobalKey<_MyHomePage> _formKey = GlobalKey<_MyHomePage>();
+  Future<Usuario>? _futureRegisterUsuario;
+  Future<dynamic>? _futureLoginUsuario;
 
-    Widget buildNome() {
-      return TextFormField(
-        decoration: const InputDecoration(labelText: 'Nome'),
-        validator: (value) {
-          if (value == '') {
-            return 'Digite seu nome';
-          }
-        },
-        onSaved: (value) {
-          email = value.toString();
-        },
-      );
-    }
+  late String nome;
+  late String cpf;
+  late String email;
+  late String senha;
+  // late String senhaVerif;
 
-    Widget buildEmail() {
-      return TextFormField(
-        decoration: const InputDecoration(labelText: 'Email'),
-        validator: (value) {
-          if (value == '') {
-            return 'Digite seu e-mail';
-          }
-        },
-        onSaved: (value) {
-          email = value.toString();
-        },
-      );
-    }
+  Widget buildNome() {
+    return TextFormField(
+      decoration: const InputDecoration(labelText: 'Nome'),
+      validator: (value) {
+        if (value == '') {
+          return 'Digite seu nome';
+        }
+      },
+      onSaved: (value) {
+        nome = value.toString();
+      },
+      controller: _controllerNome,
+    );
+  }
 
-    Widget buildSenha() {
-      return TextFormField(
-        decoration: const InputDecoration(labelText: 'Senha'),
-        validator: (value) {
-          if (value == '') {
-            return 'Digite sua senha';
-          }
-        },
-        onSaved: (value) {
-          senha = value.toString();
-        },
-      );
-    }
+  Widget buildCpf() {
+    return TextFormField(
+      decoration: const InputDecoration(labelText: 'CPF'),
+      validator: (value) {
+        if (value == '') {
+          return 'Digite seu CPF';
+        }
+        return '';
+      },
+      onSaved: (value) {
+        cpf = value.toString();
+      },
+      controller: _controllerCpf,
+    );
+  }
 
-    Widget buildSenhaVerif() {
-      return TextFormField(
-        decoration: const InputDecoration(labelText: 'Confirmar senha'),
-        validator: (value) {
-          if (value == '') {
-            return 'Digite sua senha novamente';
-          }
-        },
-        onSaved: (value) {
-          email = value.toString();
-        },
-      );
-    }
+  Widget buildEmail() {
+    return TextFormField(
+      decoration: const InputDecoration(labelText: 'Email'),
+      validator: (value) {
+        if (value == '') {
+          return 'Digite seu e-mail';
+        }
+        return '';
+      },
+      onSaved: (value) {
+        email = value.toString();
+      },
+      controller: _controllerEmail,
+    );
+  }
 
-    Future<void> dialogBuilderRegister(BuildContext context) {
-      return showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: const Text('Registrar'),
-              content: Form(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    buildNome(),
-                    buildEmail(),
-                    buildSenha(),
-                    buildSenhaVerif(),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
+  Widget buildSenha() {
+    return TextFormField(
+      decoration: const InputDecoration(labelText: 'Senha'),
+      obscureText: true,
+      validator: (value) {
+        if (value == '') {
+          return 'Digite sua senha';
+        }
+        return '';
+      },
+      onSaved: (value) {
+        senha = value.toString();
+      },
+      controller: _controllerSenha,
+    );
+  }
+
+  // Widget buildSenhaVerif() {
+  //   return TextFormField(
+  //     decoration: const InputDecoration(labelText: 'Confirmar senha'),
+  //     validator: (value) {
+  //       if (value == '') {
+  //         return 'Digite sua senha novamente';
+  //       }
+  //     },
+  //     onSaved: (value) {
+  //       senhaVerif = value.toString();
+  //     },
+  //   );
+  // }
+
+  Future<void> dialogBuilderRegister(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            title: const Text('Registrar'),
+            content: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  buildNome(),
+                  buildCpf(),
+                  buildEmail(),
+                  buildSenha(),
+                  // buildSenhaVerif(),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    child: const Text(
+                      'Registrar',
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    onPressed: () => {
+                      setState(() {
+                        _futureRegisterUsuario = registerUsuario(
+                            _controllerCpf.text,
+                            _controllerEmail.text,
+                            _controllerSenha.text,
+                            _controllerNome.text);
+                      }),
+                      Navigator.pop(context),
+                      dialogBuilderLogin(context),
+                    },
+                  ),
+                ],
+              ),
+            ));
+      },
+    );
+  }
+
+  Future<void> dialogBuilderLogin(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            title: const Text('Login'),
+            content: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  buildEmail(),
+                  buildSenha(),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
                       child: const Text(
-                        'Registrar',
+                        'Logar',
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                       onPressed: () => {
+                        setState(() {
+                          _futureLoginUsuario = loginUsuario(
+                              _controllerEmail.text, _controllerSenha.text);
+                        }),
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => MyFeed()),
                         )
                       },
-                    )
-                  ],
-                ),
-              ));
-        },
-      );
-    }
-
-    Future<void> dialogBuilderLogin(BuildContext context) {
-      return showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: const Text('Login'),
-              content: Form(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    buildEmail(),
-                    buildSenha(),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        child: const Text(
-                          'Logar',
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                        onPressed: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MyFeed()),
-                          )
-                        },
-                      ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
                           elevation: 0.0,
-                          primary: Colors.red.withOpacity(0),
-                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(2),)
-                           ),
+                          backgroundColor: Colors.red.withOpacity(0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                            Radius.circular(2),
+                          )),
                           side: BorderSide(color: Colors.white)),
-                         
-                        child: const Text(
-                          'Não possui conta? Registrar',
-                          style: TextStyle(color: Color(0xFF0D3071), fontSize: 14),
-                        ),
-                        onPressed: () => {dialogBuilderRegister(context)},
+                      child: const Text(
+                        'Não possui conta? Registrar',
+                        style:
+                            TextStyle(color: Color(0xFF0D3071), fontSize: 14),
                       ),
-                    )
-                  ],
-                ),
-              ));
-        },
-      );
-    }
+                      onPressed: () => {dialogBuilderRegister(context)},
+                    ),
+                  )
+                ],
+              ),
+            ));
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Color color = Theme.of(context).secondaryHeaderColor;
+
+    final GlobalKey<_MyHomePage> _formKey = GlobalKey<_MyHomePage>();
 
     Widget buttonSection = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
