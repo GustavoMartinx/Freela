@@ -13,7 +13,7 @@ const Pub = database.define('PUB', {
         allowNull: false
     },
 
-    desc: {
+    descricao: {
         type: Sequelize.STRING,
         allowNull: true,
     },

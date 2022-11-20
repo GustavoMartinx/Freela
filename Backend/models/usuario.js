@@ -6,12 +6,16 @@ const Usuario = database.define('USUARIO', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    email: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
 
     senha: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    
+
     nome: {
         type: Sequelize.STRING,
         allowNull: false
@@ -19,7 +23,17 @@ const Usuario = database.define('USUARIO', {
 
     profissao: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
+    },
+
+    fonteContato: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    
+    contato: {
+        type: Sequelize.STRING,
+        allowNull: true
     },
 
     imagem: {
@@ -31,18 +45,6 @@ const Usuario = database.define('USUARIO', {
         type: Sequelize.STRING,
         allowNull: true
     },
-
-    // avaliacao: {
-    //     type: Sequelize.INTEGER,
-    //     allowNull: false,
-    // },
-
-    // Criar uma tabela Login?
-
-    // senha: {
-    //     type: Sequelize.STRING,
-    //     allowNull: false
-    // }
 }, {
     freezeTableName: true,
     timestamps: false
