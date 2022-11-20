@@ -10,13 +10,14 @@ import DAOPub from '../DAOs/pubDAO.js';
 // import DAOServico from '../DAOs/servicoDAO.js';
 
 
-routes.post('/store-usuario', DAOUsuario.cadastrar);
-routes.post("/login", DAOUsuario.login);
+routes.post('/register-usuario', DAOUsuario.registrar);
+routes.post('/login-usuario', DAOUsuario.login);
 routes.get('/delete-usuario/:id', DAOUsuario.delete);
 routes.get('/show-usuario/:id', DAOUsuario.show);
+routes.get('/teste-de-cookies', DAOUsuario.userAuth);
 
 routes.post('/store-pub', DAOPub.cadastrar);
-routes.get('/teste-de-cookies', DAOUsuario.userAuth);
+routes.get('/index-pub', DAOPub.index);
 // routes.get('/delete-pub/:id', DAOUsuario.delete);
 
 
