@@ -1,7 +1,6 @@
 import 'dart:html';
 
 class Pub {
-  final int id;
   final String titulo;
   final String vaga;
   final String desc;
@@ -12,7 +11,6 @@ class Pub {
   final String imagem; // TODO: como enviar a imagem pro back
 
   const Pub({
-    required this.id,
     required this.titulo,
     required this.vaga,
     required this.desc,
@@ -25,7 +23,6 @@ class Pub {
 
   factory Pub.fromJson(Map<String, dynamic> json) {
     return Pub(
-      id: json['id'],
       titulo: json['titulo'],
       vaga: json['vaga'],
       desc: json['desc'],
