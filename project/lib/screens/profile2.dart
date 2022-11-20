@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './subscreens/sidemenu.dart';
 import 'feed.dart';
+import 'notifications.dart';
 
 class Profile extends StatelessWidget {
   // This widget is the root of your application.
@@ -169,7 +170,12 @@ class Profile2 extends StatelessWidget {
               icon: const Icon(
                 Icons.notifications,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Notificacao()),
+                );
+              },
             ),
           ),
         ],

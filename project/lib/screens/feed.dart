@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './subscreens/sidemenu.dart';
 import './subscreens/pubs.dart';
+import 'notifications.dart';
 
 class MyFeed extends StatelessWidget {
   @override
@@ -26,7 +27,12 @@ class MyFeed extends StatelessWidget {
               icon: const Icon(
                 Icons.notifications,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Notificacao()),
+                );
+              },
             ),
           ),
         ],
