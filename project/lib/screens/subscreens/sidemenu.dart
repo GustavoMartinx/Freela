@@ -53,42 +53,12 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Configurações'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.border_color),
-            title: Text('Fale conosco'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Sair'),
             onTap: () => {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyHomePage()),
-              )
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.verified_user),
-            title: Text('Teste Fetch'),
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TesteFetch()),
-              )
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.verified_user),
-            title: Text('Teste Send'),
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TesteSend()),
               )
             },
           ),

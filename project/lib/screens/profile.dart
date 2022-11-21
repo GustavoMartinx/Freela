@@ -156,34 +156,41 @@ class MyProfile extends StatelessWidget {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
-        title: InkWell(
-          splashColor: Colors.white.withAlpha(700),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyFeed()),
-            );
-          },
-          child: const Text('Menu'),
+        backgroundColor: Colors.blue,
+        elevation: 0,
+        leading: const BackButton(
+          color: Colors.white, // <-- SEE HERE
         ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 15),
-            child: IconButton(
-              tooltip: "Notificações",
-              icon: const Icon(
-                Icons.notifications,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Notificacao()),
-                );
-              },
-            ),
-          ),
-        ],
       ),
+      // appBar: AppBar(
+      //   title: InkWell(
+      //     splashColor: Colors.white.withAlpha(700),
+      //     onTap: () {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => MyFeed()),
+      //       );
+      //     },
+      //     child: const Text('Menu'),
+      //   ),
+      //   actions: [
+      //     Container(
+      //       margin: const EdgeInsets.only(right: 15),
+      //       child: IconButton(
+      //         tooltip: "Notificações",
+      //         icon: const Icon(
+      //           Icons.notifications,
+      //         ),
+      //         onPressed: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(builder: (context) => Notificacao()),
+      //           );
+      //         },
+      //       ),
+      //     ),
+      //   ],
+      // ),
       body: Center(
         child: Profile(),
       ),
