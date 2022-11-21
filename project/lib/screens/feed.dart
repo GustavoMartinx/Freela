@@ -37,8 +37,8 @@ class MyFeed extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: MyPubs(),
+      body: Center(
+        child: MyListPub(),
       ),
     );
   }

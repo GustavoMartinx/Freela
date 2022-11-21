@@ -7,7 +7,6 @@ import '../panel.dart';
 import '../testeFetch.dart';
 import '../testeSend.dart';
 import '../notifications.dart';
-import 'pubs_test.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -30,16 +29,6 @@ class NavDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyProfile()),
-              )
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.verified_user),
-            title: Text('Teste Lista'),
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyListPub()),
               )
             },
           ),
