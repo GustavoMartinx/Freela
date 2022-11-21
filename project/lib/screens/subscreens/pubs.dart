@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import '../../models/pubForm.dart';
 import 'package:http/http.dart' as http;
@@ -8,17 +10,17 @@ import 'dart:io';
 
 import '../profile2.dart';
 
-Future<Pub> fetchPubRelated() async {
-  final response =
-      await http.get(Uri.parse('http://localhost:3000/show-pub/1'));
+// Future<Pub> fetchPubRelated() async {
+//   final response =
+//       await http.get(Uri.parse('http://localhost:3000/show-pub/1'));
 
-  // (response.statusCode >= 200) && (response.statusCode <= 299)
-  if (response.statusCode == 200) {
-    return Pub.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to load Pub');
-  }
-}
+//   // (response.statusCode >= 200) && (response.statusCode <= 299)
+//   if (response.statusCode == 200) {
+//     return Pub.fromJson(jsonDecode(response.body));
+//   } else {
+//     throw Exception('Failed to load Pub');
+//   }
+// }
 
 class MyListPub extends StatefulWidget {
   @override
@@ -95,8 +97,16 @@ class _MyListPubState extends State {
         });
   }
 
-  Future<void> dialogBuilderPub(BuildContext context) async {
-    Pub pubs = await fetchPubRelated(); // foda
+  Future<void> dialogBuilderPub(
+      BuildContext context,
+      String titulo,
+      String descricao,
+      String vaga,
+      String valor,
+      String modeloTrab,
+      String datasHorarios,
+      String cidadeBairro) async {
+    //Pub pubs = await fetchPubRelated(); // foda
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -104,6 +114,7 @@ class _MyListPubState extends State {
             titlePadding: const EdgeInsets.all(0),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Align(
                   alignment: Alignment.topRight,
@@ -129,9 +140,12 @@ class _MyListPubState extends State {
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 13.0),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                            height: 250,
+                            height: 350,
+                            width: 400,
                             padding: EdgeInsets.only(top: 20.0),
                             child: Expanded(
                               flex: 1,
@@ -139,13 +153,106 @@ class _MyListPubState extends State {
                                   scrollDirection: Axis.vertical, //.horizontal
                                   child: Column(
                                     children: [
-                                      Text(pubs.titulo),
-                                      Text(pubs.vaga),
-                                      Text(pubs.descricao),
-                                      Text(pubs.valor),
-                                      Text(pubs.modeloTrab),
-                                      Text(pubs.datasHorarios),
-                                      Text(pubs.cidadeBairro),
+                                      Container(
+                                        padding: EdgeInsets.all(5.0),
+                                        child: Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Profile2()),
+                                                );
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(3.0),
+                                                height: 40,
+                                                width: 40,
+                                                decoration: BoxDecoration(
+                                                    image: const DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: AssetImage(
+                                                            '/images/p1.jpeg'))),
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Profile2()),
+                                                );
+                                              },
+                                              child: const Text(
+                                                "Fulana da Silva Pereira",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      ListTile(
+                                          title: Text(titulo,
+                                              textAlign: TextAlign.justify),
+                                          leading: const Text("Título:",
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                      ListTile(
+                                          title: Text(vaga,
+                                              textAlign: TextAlign.justify),
+                                          leading: const Text("Vaga:",
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                      ListTile(
+                                          title: Text(descricao,
+                                              textAlign: TextAlign.justify),
+                                          leading: const Text("Descrição:",
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                      ListTile(
+                                          title: Text(valor,
+                                              textAlign: TextAlign.justify),
+                                          leading: const Text("Valor:",
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                      ListTile(
+                                          title: Text(modeloTrab,
+                                              textAlign: TextAlign.justify),
+                                          leading: const Text(
+                                              "Modelo de trabalho:",
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                      ListTile(
+                                          title: Text(datasHorarios,
+                                              textAlign: TextAlign.justify),
+                                          leading: const Text("Datas/Horários:",
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                      ListTile(
+                                          title: Text(cidadeBairro,
+                                              textAlign: TextAlign.justify),
+                                          leading: const Text("Cidade/Bairro:",
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                      FontWeight.bold))),
                                     ],
                                   )),
                             ),
@@ -223,9 +330,14 @@ class _MyListPubState extends State {
   }
 
   Widget getCard(item) {
-    var titulo = item['titulo'];
+    String titulo = item['titulo'];
     //var imagem = item['imagem'];
-    var descricao = item['descricao'];
+    String descricao = item['descricao'];
+    String vaga = item['vaga'];
+    String valor = item['valor'];
+    String modeloTrab = item['modeloTrab'];
+    String datasHorarios = item['datasHorarios'];
+    String cidadeBairro = item['cidadeBairro'];
     return Card(
       shape: const RoundedRectangleBorder(
         side: BorderSide(
@@ -235,10 +347,11 @@ class _MyListPubState extends State {
       child: InkWell(
         splashColor: Colors.white.withAlpha(700),
         onTap: () {
-          dialogBuilderPub(context);
+          dialogBuilderPub(context, titulo, descricao, vaga, valor, modeloTrab,
+              datasHorarios, cidadeBairro);
         },
         child: Container(
-            height: 600,
+            height: 550,
             width: 500,
             child: Column(
               children: [
@@ -279,9 +392,13 @@ class _MyListPubState extends State {
                   ),
                 ),
                 Container(
-                  width: 500,
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(descricao, textAlign: TextAlign.justify),
+                  child: ListTile(
+                    title: Text(
+                      titulo,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
                 ),
                 Container(
                   height: 350,
@@ -292,10 +409,9 @@ class _MyListPubState extends State {
                           image: AssetImage('/images/post1.jpg'))),
                 ),
                 Container(
+                  width: 500,
                   padding: const EdgeInsets.all(10.0),
-                  child: ListTile(
-                    title: Text(titulo),
-                  ),
+                  child: Text(descricao, textAlign: TextAlign.justify),
                 ),
               ],
             )),

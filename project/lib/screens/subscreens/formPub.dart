@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:project/screens/feed.dart';
 import '../../models/pubForm.dart';
 import 'package:http/http.dart' as http;
 
@@ -281,13 +282,13 @@ class _FormPubState extends State<FormPub> {
           width: 350,
           height: 800,
           // padding: EdgeInsets.only(top: 10, left: 700),
-          child: (_futurePub == null) ? buildForm() : buildFutureBuilder(),
+          child: buildForm(context),
         ),
       ),
     );
   }
 
-  Form buildForm() {
+  Form buildForm(BuildContext context) {
     return Form(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -322,6 +323,7 @@ class _FormPubState extends State<FormPub> {
                   nomeImg, // imagem
                 );
               }),
+              dialogBuilderNotify(context),
             },
           ),
         ],
