@@ -3,7 +3,7 @@ import 'dart:html';
 class Pub {
   final String titulo;
   final String vaga;
-  final String desc;
+  final String descricao;
   final String datasHorarios;
   final String valor;
   final String modeloTrab;
@@ -13,7 +13,7 @@ class Pub {
   const Pub({
     required this.titulo,
     required this.vaga,
-    required this.desc,
+    required this.descricao,
     required this.datasHorarios,
     required this.valor,
     required this.modeloTrab,
@@ -25,7 +25,7 @@ class Pub {
     return Pub(
       titulo: json['titulo'],
       vaga: json['vaga'],
-      desc: json['desc'],
+      descricao: json['descricao'],
       datasHorarios: json['datasHorarios'],
       valor: json['valor'],
       modeloTrab: json['modeloTrab'],

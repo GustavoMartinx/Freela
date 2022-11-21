@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:path/path.dart';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,12 +11,12 @@ import 'package:http/http.dart' as http;
 Future<Pub> createPub(
     String titulo,
     String vaga,
-    String desc,
+    String descricao,
     String datasHorarios,
     String valor,
     String modeloTrab,
     String cidadeBairro,
-    Future<String> imagem) async {
+    String imagem) async {
   final response = await http.post(
     Uri.parse(
         'http://localhost:3000/store-pub/'), //https://jsonplaceholder.typicode.com/albums  // http://localhost:3000/store-pub/
@@ -25,12 +26,12 @@ Future<Pub> createPub(
     body: jsonEncode(<String, dynamic>{
       'titulo': titulo,
       'vaga': vaga,
-      'desc': desc,
+      'descricao': descricao,
       'datasHorarios': datasHorarios,
       'valor': valor,
       'modeloTrab': modeloTrab,
       'cidadeBairro': cidadeBairro,
-      'imagem': imagem.toString(),
+      'imagem': imagem,
     }),
   );
 
@@ -43,6 +44,28 @@ Future<Pub> createPub(
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
     throw Exception('Failed to create Pub.');
+  }
+}
+
+void uploadImg(
+  String base64Img,
+  String nomeImg,
+) async {
+  final response = await http.post(
+    Uri.parse('http://localhost:3000/upload-img-pub'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'imagem': base64Img,
+      'nome': nomeImg,
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    return;
+  } else {
+    throw Exception('Falha ao enviar a imagem.');
   }
 }
 
@@ -64,15 +87,16 @@ class _FormPubState extends State<FormPub> {
   final TextEditingController _controllerCidadeBairro = TextEditingController();
   Future<Pub>? _futurePub;
 
-  XFile? image;
-  // late String titulo;
+  XFile? imagemFile;
+  late String titulo;
   late String vaga;
-  late String desc;
+  late String descricao;
   late String datasHorarios;
   late String valor;
   late String modeloTrab;
   late String cidadeBairro;
-  late Future<String> x;
+  late String nomeImg;
+  late String base64Img;
 
   Widget buildTitulo() {
     return TextFormField(
@@ -118,7 +142,7 @@ class _FormPubState extends State<FormPub> {
         }
       },
       onSaved: (value) {
-        desc = value.toString();
+        descricao = value.toString();
       },
       controller: _controllerDesc,
     );
@@ -193,12 +217,10 @@ class _FormPubState extends State<FormPub> {
       leading: Icon(Icons.image),
       title: const Text("Adicionar uma Imagem para a Publicação"),
       onTap: (() {
-        //controller:
-        x = selectImage();
-        print(x);
+        selectImage();
       }),
-      trailing: image != null
-          ? Image.network(image!.path)
+      trailing: imagemFile != null
+          ? Image.network(imagemFile!.path)
           : null, // Image.file(File(image!.path))
     );
   }
@@ -287,6 +309,7 @@ class _FormPubState extends State<FormPub> {
               style: TextStyle(color: Colors.white, fontSize: 14),
             ),
             onPressed: () => {
+              uploadImg(base64Img, nomeImg),
               setState(() {
                 _futurePub = createPub(
                   _controllerTitulo.text,
@@ -296,7 +319,7 @@ class _FormPubState extends State<FormPub> {
                   _controllerValor.text,
                   _controllerModeloTrab.text,
                   _controllerCidadeBairro.text,
-                  x, // imagem
+                  nomeImg, // imagem
                 );
               }),
             },
@@ -313,7 +336,7 @@ class _FormPubState extends State<FormPub> {
         if (snapshot.hasData) {
           // dialogBuilderNotify(context);
           return Text(snapshot.data!.titulo); // publi (completa?) criada!
-          //return Text(snapshot.data!.desc);
+          //return Text(snapshot.data!.descricao);
           //return Text(snapshot.data!.datasHorarios);
           //return Text(snapshot.data!.valor);
           //return Text(snapshot.data!.modeloTrab);
@@ -327,17 +350,19 @@ class _FormPubState extends State<FormPub> {
     );
   }
 
-  Future<String> selectImage() async {
+  void selectImage() async {
     final ImagePicker picker = ImagePicker();
 
     XFile? file = await picker.pickImage(source: ImageSource.gallery);
-    if (file != null) setState(() => image = file);
+    if (file != null) setState(() => imagemFile = file);
 
     final imageBytes = await file!.readAsBytes();
     MemoryImage(imageBytes);
-    String base64Image = base64Encode(imageBytes);
 
-    return base64Image;
+    base64Img = base64Encode(imageBytes);
+    nomeImg = file.path.split('/').last;
+
+    return;
     // print(base64Image);
 
     // File imageFile = File(file!.path);
