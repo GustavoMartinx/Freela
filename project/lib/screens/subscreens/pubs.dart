@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import '../../models/pubForm.dart';
 import 'package:http/http.dart' as http;
+import '../../models/notificacao.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -22,6 +23,33 @@ import '../profile2.dart';
 //   }
 // }
 
+Future<Notif> createNotification(
+    String titulo, String fonteContato, String contato) async {
+  final response = await http.post(
+    Uri.parse(
+        'http://localhost:3000/store-notificacao/'), //https://jsonplaceholder.typicode.com/albums  // http://localhost:3000/store-pub/
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'titulo': titulo,
+      'fonteContato': fonteContato,
+      'contato': contato,
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    return Notif.fromJson(
+        jsonDecode(response.body)['dados']); // estranho (colocar popup?)
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create Notificacao.');
+  }
+}
+
 class MyListPub extends StatefulWidget {
   @override
   createState() => _MyListPubState();
@@ -32,6 +60,7 @@ class _MyListPubState extends State {
   // var pubs = <Pub>[];
   List pubs = [];
   bool isLoading = false;
+  Future<Notif>? _futureNotification;
 
   // _getPubs() async {
   //   List<dynamic> list = await fetchPubs();
@@ -264,6 +293,13 @@ class _MyListPubState extends State {
                               height: 30,
                               child: ElevatedButton(
                                 onPressed: () {
+                                  setState(() {
+                                    _futureNotification = createNotification(
+                                      titulo,
+                                      "Telefone",
+                                      "(44)9 9991-5365",
+                                    );
+                                  });
                                   dialogBuilderNotify(context);
                                 },
                                 child: const Text(
