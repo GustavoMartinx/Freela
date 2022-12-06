@@ -5,6 +5,7 @@ const routes = new Router();
 import DAOUsuario from '../DAOs/usuarioDAO.js';
 import DAOPub from '../DAOs/pubDAO.js';
 import DAOImgPub from '../DAOs/imgPubDAO.js';
+import DAONotificacao from '../DAOs/notificacaoDAO.js';
 // import DAOApp from '../DAOs/appDAO.js';
 // import DAOCategoria from '../DAOs/categoriaDAO.js';
 // import DAODisponibilidade from '../DAOs/disponibilidadeDAO.js';
@@ -20,6 +21,9 @@ routes.get('/teste-de-cookies', DAOUsuario.userAuth);
 routes.post('/store-pub', DAOPub.cadastrar);
 routes.get('/index-pub', DAOPub.index);
 routes.get('/show-pub/:id', DAOPub.show);
+
+routes.post('/store-notificacao', DAONotificacao.cadastrar);
+routes.get('/index-notificacao', DAONotificacao.index);
 
 routes.post('/upload-img-pub', DAOImgPub.armazenar);
 
