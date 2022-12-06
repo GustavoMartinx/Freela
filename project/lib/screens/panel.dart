@@ -3,7 +3,7 @@ import './subscreens/sidemenu.dart';
 import './subscreens/pubsUser.dart';
 import './feed.dart';
 import './subscreens/formPub.dart';
-import './notifications.dart';
+import 'feedNotifications.dart';
 
 class MyPanel extends StatelessWidget {
   @override

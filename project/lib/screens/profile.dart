@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './subscreens/sidemenu.dart';
 import 'feed.dart';
-import 'notifications.dart';
+import 'feedNotifications.dart';
 
 class Profile extends StatelessWidget {
   // This widget is the root of your application.

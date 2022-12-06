@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './subscreens/sidemenu.dart';
 import './subscreens/pubs.dart';
-import 'notifications.dart';
+import 'feedNotifications.dart';
 
 class MyFeed extends StatelessWidget {
   @override

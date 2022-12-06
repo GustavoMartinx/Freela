@@ -6,7 +6,7 @@ import '../home.dart';
 import '../panel.dart';
 import '../testeFetch.dart';
 import '../testeSend.dart';
-import '../notifications.dart';
+import '../feedNotifications.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
