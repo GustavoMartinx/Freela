@@ -7,6 +7,7 @@ import '../panel.dart';
 import '../testeFetch.dart';
 import '../testeSend.dart';
 import '../feedNotifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -55,11 +56,15 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Sair'),
-            onTap: () => {
+            onTap: () async {
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setString('token', 'null');
+              await prefs.setInt('idUser', -1);
+
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => MyHomePage()),
-              )
+              );
             },
           ),
         ],

@@ -5,57 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
-Future<Usuario> registerUsuario(
-  String cpf,
-  String email,
-  String senha,
-  String nome,
-) async {
-  final response = await http.post(
-    Uri.parse('http://localhost:3000/register-usuario'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, dynamic>{
-      'cpf': cpf,
-      'email': email,
-      'senha': senha,
-      'nome': nome,
-    }),
-  );
-
-  if (response.statusCode == 201) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
-    return Usuario.fromJson(
-        jsonDecode(response.body)['dados']); // estranho (colocar popup?)
-  } else {
-    // If the server did not return a 201 CREATED response,
-    // then throw an exception.
-    throw Exception('Falha ao registrar o usuário.');
-  }
-}
-
-Future<dynamic> loginUsuario(
-  String email,
-  String senha,
-) async {
-  final response =
-      await http.post(Uri.parse('http://localhost:3000/login-usuario'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(<String, dynamic>{'email': email, 'senha': senha}));
-
-  if (response.statusCode == 201) {
-    return jsonDecode(response.body)['user']; // estranho (colocar popup?)
-  } else {
-    // If the server did not return a 201 CREATED response,
-    // then throw an exception.
-    throw Exception('Falha ao logar o usuário.');
-  }
-}
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -157,6 +107,47 @@ class _MyHomePage extends State<MyHomePage> {
   //   );
   // }
 
+  Future<void> dialogBuilderNotify(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            titlePadding: const EdgeInsets.all(0),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.black,
+                      size: 25,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
+                  child: Container(
+                      height: 50,
+                      width: 500,
+                      child: Text('Email ou senha incorretos!',
+                          textAlign: TextAlign.center)),
+                )
+              ],
+            ));
+      },
+    );
+  }
+
   Future<void> dialogBuilderRegister(BuildContext context) {
     return showDialog<void>(
       context: context,
@@ -219,15 +210,11 @@ class _MyHomePage extends State<MyHomePage> {
                         'Logar',
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
-                      onPressed: () => {
+                      onPressed: () async {
                         setState(() {
                           _futureLoginUsuario = loginUsuario(
                               _controllerEmail.text, _controllerSenha.text);
-                        }),
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyFeed()),
-                        )
+                        });
                       },
                     ),
                   ),
@@ -257,8 +244,84 @@ class _MyHomePage extends State<MyHomePage> {
     );
   }
 
+  Future<Usuario> registerUsuario(
+    String cpf,
+    String email,
+    String senha,
+    String nome,
+  ) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:3000/register-usuario'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'cpf': cpf,
+        'email': email,
+        'senha': senha,
+        'nome': nome,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      return Usuario.fromJson(
+          jsonDecode(response.body)['dados']); // estranho (colocar popup?)
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Falha ao registrar o usuário.');
+    }
+  }
+
+  Future<dynamic> loginUsuario(
+    String email,
+    String senha,
+  ) async {
+    final response = await http.post(
+        Uri.parse('http://localhost:3000/login-usuario'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{'email': email, 'senha': senha}));
+
+    if (response.statusCode == 201) {
+      final prefs = await SharedPreferences.getInstance();
+      var parseToken = jsonDecode(response.body)['token'];
+      var parseIdUser = jsonDecode(response.body)['user']['id'];
+      await prefs.setString('token', parseToken);
+      await prefs.setInt('idUser', parseIdUser);
+
+      String? tokenRecebido = await prefs.getString("token");
+
+      if (tokenRecebido != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyFeed()),
+        );
+      }
+    } else {
+      dialogBuilderNotify(context);
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    checkToken() async {
+      final prefs = await SharedPreferences.getInstance();
+
+      String? tokenRecebido = await prefs.getString("token");
+
+      if (tokenRecebido != 'null') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MyFeed()),
+        );
+      }
+    }
+
+    checkToken();
+
     Color color = Theme.of(context).secondaryHeaderColor;
 
     final GlobalKey<_MyHomePage> _formKey = GlobalKey<_MyHomePage>();
