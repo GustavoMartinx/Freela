@@ -67,40 +67,64 @@ class DAOUsuario {
             bcrypt.compare(dados.senha, user.senha).then(function (result) {
                 //cria um json web token pra ele
                 // é necessário passar esse token sempre q fizer algo 
-                console.log(result);
+                // console.log("Achou o usuário " + dados.email + ", " + user.email);
 
-                if (result) {
-                    const maxAge = 3 * 60 * 60;
-                    const token = jwt.sign(
-                        { id: user.id, nome: user.nome },
-                        jwtSecret,
-                        {
-                            expiresIn: maxAge, // 3hrs in sec
-                        }
-                    );
-                    res.cookie("jwt", token, {
-                        httpOnly: true,
-                        maxAge: maxAge * 1000, // 3hrs in ms
-                    });
-                    return res.status(201).json({
-                        user: {
-                            id: user._id,
-                            name: user.name,
-                            email: user.email
-                        },
-                        token: token
-                    });
-                } else {
-                    res.cookie("jwt", 'not today', {
-                        httpOnly: false,
-                        maxAge: 2,
-                    }); // escrevendo reto por linhas tortas AMEM
-                    return res.status(400).json({ message: "Login not succesful" });
-                }
+                const maxAge = 3 * 60 * 60;
+                const token = jwt.sign(
+                    { id: user.id, nome: user.nome },
+                    jwtSecret,
+                    {
+                        expiresIn: maxAge, // 3hrs in sec
+                    }
+                );
+
+                res.cookie("jwt", token, {
+                    httpOnly: true,
+                    maxAge: maxAge * 1000, // 3hrs in ms
+                });
+
+                return res.status(201).json({
+                    user: {
+                        id: user.id,
+                        nome: user.nome,
+                        email: user.email
+                    },
+                    token: token
+                });
+
+                // if (!result) {
+                //     const maxAge = 3 * 60 * 60;
+                //     const token = jwt.sign(
+                //         { id: user.id, nome: user.nome },
+                //         jwtSecret,
+                //         {
+                //             expiresIn: maxAge, // 3hrs in sec
+                //         }
+                //     );
+                //     res.cookie("jwt", token, {
+                //         httpOnly: true,
+                //         maxAge: maxAge * 1000, // 3hrs in ms
+                //     });
+                //     return res.status(201).json({
+                //         user: {
+                //             id: user._id,
+                //             name: user.name,
+                //             email: user.email
+                //         },
+                //         token: token
+                //     });
+                // } else {
+                //     res.cookie("jwt", 'not today', {
+                //         httpOnly: false,
+                //         maxAge: 2,
+                //     }); // escrevendo reto por linhas tortas AMEM
+                //     return res.status(400).json({ message: "Login not succesful" });
+                // }
             });
         } catch (error) {
+
             res.status(400).json({
-                message: "An error occurred",
+                message: "Login falhou",
                 error: error.message,
             });
         }
