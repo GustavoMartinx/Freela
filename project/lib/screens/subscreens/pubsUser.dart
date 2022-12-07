@@ -72,7 +72,7 @@ class _PubsUserState extends State<PubsUser> {
       thumbVisibility: true,
       child: GridView.builder(
         controller: _controllerOne,
-        itemCount: 10,
+        itemCount: 2,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, mainAxisExtent: 400, crossAxisSpacing: 30),
         itemBuilder: (BuildContext context, int index) {
