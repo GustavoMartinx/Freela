@@ -288,8 +288,11 @@ class _MyHomePage extends State<MyHomePage> {
       final prefs = await SharedPreferences.getInstance();
       var parseToken = jsonDecode(response.body)['token'];
       var parseIdUser = jsonDecode(response.body)['user']['id'];
+      var parseNomeUser = jsonDecode(response.body)['user']['nome'];
+
       await prefs.setString('token', parseToken);
       await prefs.setInt('idUser', parseIdUser);
+      await prefs.setString('nomeUser', parseNomeUser);
 
       String? tokenRecebido = await prefs.getString("token");
 

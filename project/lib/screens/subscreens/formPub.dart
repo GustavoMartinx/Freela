@@ -8,8 +8,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:project/screens/feed.dart';
 import '../../models/pubForm.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../models/usuario.dart';
+
+int? idRecebido;
+String? nomeRecebido;
 
 Future<Pub> createPub(
+    int? userId,
+    String? nomeUsuario,
     String titulo,
     String vaga,
     String descricao,
@@ -25,6 +33,8 @@ Future<Pub> createPub(
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, dynamic>{
+      'userId': userId,
+      'nomeUsuario': nomeUsuario,
       'titulo': titulo,
       'vaga': vaga,
       'descricao': descricao,
@@ -45,6 +55,21 @@ Future<Pub> createPub(
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
     throw Exception('Failed to create Pub.');
+  }
+}
+
+fetchUsuario() async {
+  final response = await http.get(
+      Uri.parse('http://localhost:3000/show-usuario/${idRecebido.toString()}'));
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+
+    return jsonDecode(response.body)['user']['nome'];
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load Usuario');
   }
 }
 
@@ -269,6 +294,15 @@ class _FormPubState extends State<FormPub> {
 
   @override
   Widget build(BuildContext context) {
+    getUserInfo() async {
+      final prefs = await SharedPreferences.getInstance();
+
+      idRecebido = await prefs.getInt("idUser");
+      nomeRecebido = await prefs.getString("nomeUser");
+    }
+
+    getUserInfo();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -313,6 +347,8 @@ class _FormPubState extends State<FormPub> {
               uploadImg(base64Img, nomeImg),
               setState(() {
                 _futurePub = createPub(
+                  idRecebido,
+                  nomeRecebido,
                   _controllerTitulo.text,
                   _controllerVaga.text,
                   _controllerDesc.text,

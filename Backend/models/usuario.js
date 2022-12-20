@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import database from '../config/db.js';
+import Pub from './pub.js';
 
 const Usuario = database.define('USUARIO', {
     cpf: {
@@ -30,7 +31,7 @@ const Usuario = database.define('USUARIO', {
         type: Sequelize.STRING,
         allowNull: true
     },
-    
+
     contato: {
         type: Sequelize.STRING,
         allowNull: true

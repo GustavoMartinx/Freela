@@ -1,7 +1,13 @@
 import Sequelize from 'sequelize';
 import database from '../config/db.js';
+import Usuario from './usuario.js';
 
 const Pub = database.define('PUB', {
+
+    nomeUsuario: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     
     titulo: {
         type: Sequelize.STRING,

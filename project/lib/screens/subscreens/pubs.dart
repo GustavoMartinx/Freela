@@ -128,6 +128,7 @@ class _MyListPubState extends State {
 
   Future<void> dialogBuilderPub(
       BuildContext context,
+      String nomeCriador,
       String titulo,
       String descricao,
       String vaga,
@@ -215,8 +216,8 @@ class _MyListPubState extends State {
                                                           Profile2()),
                                                 );
                                               },
-                                              child: const Text(
-                                                "Fulana da Silva Pereira",
+                                              child: Text(
+                                                nomeCriador,
                                                 style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -366,6 +367,7 @@ class _MyListPubState extends State {
   }
 
   Widget getCard(item) {
+    String nomeUsuario = item['nomeUsuario'];
     String titulo = item['titulo'];
     //var imagem = item['imagem'];
     String descricao = item['descricao'];
@@ -383,8 +385,8 @@ class _MyListPubState extends State {
       child: InkWell(
         splashColor: Colors.white.withAlpha(700),
         onTap: () {
-          dialogBuilderPub(context, titulo, descricao, vaga, valor, modeloTrab,
-              datasHorarios, cidadeBairro);
+          dialogBuilderPub(context, nomeUsuario, titulo, descricao, vaga, valor,
+              modeloTrab, datasHorarios, cidadeBairro);
         },
         child: Container(
             height: 550,
@@ -419,8 +421,8 @@ class _MyListPubState extends State {
                             MaterialPageRoute(builder: (context) => Profile2()),
                           );
                         },
-                        child: const Text(
-                          "Fulana da Silva Pereira",
+                        child: Text(
+                          nomeUsuario,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       )

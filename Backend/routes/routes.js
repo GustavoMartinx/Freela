@@ -20,6 +20,7 @@ routes.get('/teste-de-cookies', DAOUsuario.userAuth);
 
 routes.post('/store-pub', DAOPub.cadastrar);
 routes.get('/index-pub', DAOPub.index);
+routes.get('/index-pub-based/:userId', DAOPub.indexBased);
 routes.get('/show-pub/:id', DAOPub.show);
 
 routes.post('/store-notificacao', DAONotificacao.cadastrar);

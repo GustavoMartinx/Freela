@@ -1,4 +1,4 @@
-import Pub from '../models/pub.js';
+import {Pub} from '../models/index.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
@@ -45,6 +45,24 @@ class DAOPub {
     //const url = config.url + "/files/noticia/"; // Para puxar as imagens do BD
 
     Pub.findAll({}).then((pub) => {
+      return res.status(200).json({
+        error: false,
+        pub
+      });
+    }).catch((err) => {
+      return res.status(400).json({
+        error: true,
+        code: 101,
+        message: "Erro: Não foi possível executar a solicitação!"
+      });
+    });
+  }
+
+  async indexBased(req, res) {
+
+    //const url = config.url + "/files/noticia/"; // Para puxar as imagens do BD
+
+    Pub.findAll({where: { userId: req.params.userId }}).then((pub) => {
       return res.status(200).json({
         error: false,
         pub
